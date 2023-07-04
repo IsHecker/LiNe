@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 09985465a62847f4cb354c85421b8563
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - FoodPrefab: {fileID: 7709268261141673211, guid: 9db3e7e9873209e409fa76f99e7a69ce,
+      type: 3}
+  - foodparticleprefab: {fileID: 7715384568707667386, guid: c61ea25b8e931ef46b4d908d8fec50e7,
+      type: 3}
+  - DeathPrefab: {fileID: 684934759658564337, guid: c1f823bd9f31a0942802e4683eb572fb,
+      type: 3}
+  - deafaultsfx: {fileID: 8300000, guid: 1206a2721efc018448d734c52500c6e6, type: 3}
+  - bruhsfx: {fileID: 8300000, guid: bdc4d72607c41634791378db54fad844, type: 3}
+  - offsfx: {fileID: 8300000, guid: e4433a473202d0841ade03c53084f5f1, type: 3}
+  - stevesfx: {fileID: 8300000, guid: 1edc7d681f25de84e9f0572b54d3bb16, type: 3}
+  - shakesfx: {fileID: 8300000, guid: 99874d7ca6d612b47a9a286d391bf254, type: 3}
+  - finishsfx: {fileID: 8300000, guid: 9d4ff3c0142616244944f9eb1e4ee19a, type: 3}
+  - foodsfx: {fileID: 8300000, guid: b785d7089977fbd419e9a91af6f314b1, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

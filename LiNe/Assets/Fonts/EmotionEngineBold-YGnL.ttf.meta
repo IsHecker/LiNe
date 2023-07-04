@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 5911c14963b998b4ca4bb047298eb26b
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Emotion Engine
+  fontNames:
+  - Emotion Engine
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: c75d10837f7f40e45a34fe05f3af114a, type: 3}
+  - {fileID: 12800000, guid: 28c448fbcb80dcb42bb5f0820cd1be4e, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
