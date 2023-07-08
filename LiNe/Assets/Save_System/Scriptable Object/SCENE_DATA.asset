@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5317c945ac4cbf2419e5b95bff9aef4f, type: 3}
   m_Name: SCENE_DATA
   m_EditorClassIdentifier: 
+  fpsActiveState: 1
+  renderMode: 1

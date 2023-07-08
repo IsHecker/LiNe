@@ -8,7 +8,7 @@ namespace Save_System
 {
     public class SaveLoadSystem : MonoBehaviour
     {
-        private string savePath => $"C:/Users/Mhamed/Documents/save.txt";
+        private string SavePath => $"{Application.persistentDataPath}/Save.txt";
         public static SaveLoadSystem Instance { get; private set; }
 
         private void Awake() => Instance = Instance == null ? this : Instance;
@@ -28,17 +28,17 @@ namespace Save_System
 
         private Dictionary<string, object> LoadFile()
         {
-            if (!File.Exists(savePath))
+            if (!File.Exists(SavePath))
                 return new Dictionary<string, object>();
 
-            using FileStream stream = File.Open(savePath, FileMode.Open);
+            using FileStream stream = File.Open(SavePath, FileMode.Open);
             BinaryFormatter formatter = new BinaryFormatter();
             return formatter.Deserialize(stream) as Dictionary<string, object>;
         }
 
         private void SaveFile(object state)
         {
-            using FileStream stream = File.Open(savePath, FileMode.Create);
+            using FileStream stream = File.Open(SavePath, FileMode.Create);
             BinaryFormatter formater = new BinaryFormatter();
             formater.Serialize(stream, state);
         }

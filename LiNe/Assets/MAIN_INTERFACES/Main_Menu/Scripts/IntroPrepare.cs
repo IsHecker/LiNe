@@ -17,21 +17,12 @@ public class IntroPrepare : MonoBehaviour
 
     private bool isMenuPrepared = false;
     private bool firstTimeOpened = false;
-    private void Start()
+    private void Awake()
     {
         Head = GameObject.Find("Head").transform;
         cameraTweak = Camera.main.GetComponent<CameraControl>();
         anim = GetComponent<Animator>();
-        SharePostProcessing();
         OpenPreparedMenu();
-    }
-
-    private static Volume volume;
-    private void SharePostProcessing()
-    {
-        if (volume != null) return;
-        volume = GameObject.Find("Post Processing").GetComponent<Volume>();
-        DontDestroyOnLoad(volume.gameObject);
     }
     private void OpenPreparedMenu()
     {
@@ -71,10 +62,7 @@ public class IntroPrepare : MonoBehaviour
     }
 
 
-    private void MoveTitle() 
-    {
-        Line_Title.transform.position = new Vector3(cameraTweak.XOffset.x, mainCamera.position.y, -10);
-    }
+    private void MoveTitle() => Line_Title.transform.position = new Vector3(cameraTweak.XOffset.x, mainCamera.position.y, -10);
 
     const byte Resize_Speed = 5;
     private void ResizeCameraAnimation()

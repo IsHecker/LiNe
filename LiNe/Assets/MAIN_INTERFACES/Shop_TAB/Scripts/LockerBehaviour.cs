@@ -14,9 +14,9 @@ public class LockerBehaviour : MonoBehaviour, ISaveable, ILocker
         if (!IsEnoughMoney()) { ShopUIEvents.Instance.UpdatePayState(state: "NotEnoughMoney"); return; }
         isLocked = false;
         transform.parent.GetComponent<IEquipableItem>().EquipItem(); //To equip the item immediately once it Unlocks.
-        ShopUIEvents.Instance.UpdatePayState(PriceToUnlock);
-        //MoneySystem.Money -= PriceToUnlock;
+        MoneySystem.Money -= PriceToUnlock;
         LockerState(isLocked);
+        ShopUIEvents.Instance.UpdatePayState(PriceToUnlock);
     }
     private void LockerState(bool LockState)
     {

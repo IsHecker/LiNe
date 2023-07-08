@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using EZCameraShake;
+using UnityEngine.EventSystems;
 
 public class SnakeHandler : PlayerBehaviour
 {
     //5, 1.5, 0, 0.8
     [SerializeField] private float RotationSpeed = 100f, TailLength = 0.5f;
-    [SerializeField] private float Turn = 0f;
-    [SerializeField] private bool tutorial, level;
     [SerializeField] private GameObject DeathPrefab;
 
+    private float Turn = 0f;
+    private bool moveRight, moveLeft;
+    private bool isGameStarted = false;
     private AudioSource audiosfx;
     private TrailRenderer trail;
     private CameraHandler cameraHandler;
-    private bool moveRight, moveLeft;
-    private bool isGameStarted = false;
 
     private void Start()
     {
@@ -44,7 +44,7 @@ public class SnakeHandler : PlayerBehaviour
 
     protected override void CheckInput()
     {
-        if (Input.GetMouseButtonDown(0)) { isGameStarted = true; UIDisplay.Instance.CloseStartUI(); }
+        if (Input.GetMouseButtonDown(0) ) { isGameStarted = true; UIDisplay.Instance.CloseStartUI(); }
 
         if (moveRight)
             Turn = 1;
@@ -53,7 +53,6 @@ public class SnakeHandler : PlayerBehaviour
         else
             Turn = 0;
     }
-
     protected override void HandleMovment()
     {
         transform.Translate(Vector2.up * playerSpeed * Time.fixedDeltaTime);

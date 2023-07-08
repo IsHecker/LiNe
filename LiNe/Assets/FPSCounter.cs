@@ -1,21 +1,22 @@
 ﻿using System;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class FPSCounter : IOptionable
 {
-    private Text frames;
-    private float fpscounter;
+    private TMPro.TMP_Text frames;
+    private float fpsCounter;
     // Start is called before the first frame update
     private void OnEnable()
     {
-        frames = GetComponent<Text>();
+        frames = GetComponent<TMPro.TMP_Text>();
         InvokeRepeating(nameof(FPS), 0, 1.5f);
     }
     private void FPS()
     {
-        fpscounter = 1 / Time.deltaTime;
-        frames.text = "FPS: " + fpscounter.ToString("0");
+        fpsCounter = 1 / Time.deltaTime;
+        frames.text = "FPS: " + fpsCounter.ToString("0");
     }
     [SerializeField] private ScenesData scenesData;
     public override void SwitchState(SwitchBehaviour switchValue) 

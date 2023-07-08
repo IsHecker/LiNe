@@ -12,6 +12,7 @@ public class HeadItems : MonoBehaviour, ISaveable
     {
         SaveData savedData = (SaveData)state;
         trailColor.material.color = new Color(savedData.r, savedData.g, savedData.b);
+        ScenesData.trailColor = trailColor.material.color;
     }
 
     [System.Serializable]

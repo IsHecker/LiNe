@@ -20,7 +20,7 @@ public class ShopUIEvents : MonoBehaviour
         cameraTweak = Camera.main.GetComponent<CameraControl>();
     }
 
-    private void UpdateMoneyDisplay() => moneyDisplayText.text = $"{MoneySystem .GetMoney()}$";
+    private void UpdateMoneyDisplay() => moneyDisplayText.text = $"{MoneySystem .Money}$";
     public void UpdateColorSelector(Transform target) => colorSelector.PointTo(target);
     public void UpdatePayState(int amount = 0, string state = "EnoughMoney")
     {
