@@ -18,7 +18,6 @@ public abstract class PlayerBehaviour : MonoBehaviour
     public GameManager gameManager;
     public float playerSpeed;
     protected float currentSpeed;
-    protected Camera playerCamera;
     protected Vector3 cameraPosition;
     protected int playerScore;
     private event Action isDeadEvent = () => { };

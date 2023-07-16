@@ -10,10 +10,7 @@ public class MoneyBehaviour : MonoBehaviour
     // Start is called before the first frame update
     private void Start() => moneyValue = RandMoney(1, 16);
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player")) Collect();
-    }
+    private void OnTriggerEnter2D(Collider2D collision) => Collect();
     private void Collect()
     {
         CameraShaker.Instance.ShakeOnce(3f, 1.5f, 0, 1);
@@ -26,9 +23,9 @@ public class MoneyBehaviour : MonoBehaviour
 
         //for destroying after Equiped
         gameObject.SetActive(false);
-        Destroy(gameObject, 1.5f);
-        Destroy(moneycanv, 1.5f);
+        Destroy(gameObject);
         Destroy(moneypartc, 1.6f);
+        Destroy(moneycanv, 1.5f);
     }
     private int RandMoney(int min, int max) => Random.Range(min, max);
 }

@@ -11,6 +11,7 @@ public class UIDisplay : MonoBehaviour
     [SerializeField] private TMPro.TMP_Text scoreDisplay;
     [SerializeField] private AnimationCurve curve;
 
+    private GameManager gameManager;
     private Animator animator;
     public static UIDisplay Instance { get; private set; }
 
@@ -19,6 +20,7 @@ public class UIDisplay : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         canvas = GetComponent<Canvas>();
+        gameManager = FindObjectOfType<GameManager>();
         RestoreData();
     }
     public void CloseStartUI() => startUI.SetActive(false);
@@ -39,6 +41,7 @@ public class UIDisplay : MonoBehaviour
         if (applyEffect) StartCoroutine(scoreanim());
         scoreDisplay.text = score.ToString();
         ScoreSystem.Score = score;
+        gameManager.IsBestScore();
         IEnumerator scoreanim()
         {
             float t = 0;

@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using EZCameraShake;
-using UnityEngine.EventSystems;
 
 public class SnakeHandler : PlayerBehaviour
 {
@@ -73,14 +71,17 @@ public class SnakeHandler : PlayerBehaviour
         HandleMovment();
     }
 
-    private int targetToResizeCamera = 0;
-    private void ResizeCamera()
-    {
-        if (targetToResizeCamera < 10) return;
+    private int targetPoints = 0;
 
-        targetToResizeCamera = 0;
-        cameraHandler.IncreaseFOV();
+    void IncreaseDifficulty()
+    {
+        if (targetPoints < 2) return;
+        targetPoints = 0;
+        playerSpeed += 0.15f;
+        RotationSpeed += 5;
+        ResizeCamera();
     }
+    private void ResizeCamera() => cameraHandler.IncreaseFOV();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -89,8 +90,8 @@ public class SnakeHandler : PlayerBehaviour
             trail.time += TailLength;
             CameraShaker.Instance.ShakeOnce(5, 1.5f, 0, 0.8f);
             UIDisplay.Instance.UpdateScoreDisplay(++playerScore, true);
-            targetToResizeCamera++;
-            ResizeCamera();
+            targetPoints++;
+            IncreaseDifficulty();
         }
     }
 

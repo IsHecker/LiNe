@@ -1,27 +1,25 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using EZCameraShake;
 
 public class GravityHandler : PlayerBehaviour
 {
-	private bool onGround = true;
-	private bool isGameStarted = false;
-	private bool checkBounds;
-
 	[SerializeField] private float gravity;
-    [SerializeField] private GameObject death;
-    [SerializeField] private GameObject bestScoreEFX;
     [SerializeField] private AudioClip deafaultsfx;
+	[SerializeField] private GamePlayCamera gamePlayCamera;
 
     [HideInInspector] public Rigidbody2D RB;
 	[HideInInspector] public AudioSource soundFX;
 
+	private bool onGround = true;
+	private bool isGameStarted = false;
+	private bool checkBounds;
+	private Transform mytransform;
+
     private void Start()
     {
-		playerCamera = Camera.main;
+		mytransform = GetComponent<Transform>();
 		RB = GetComponent<Rigidbody2D>();
         cameraPosition = new Vector3(0, 0.5f, -10);
-
         GravityDirection(0, -9.8f);
     }
 
@@ -30,8 +28,8 @@ public class GravityHandler : PlayerBehaviour
 		if (gameManager.IsGameOver() || EventSystem.current.currentSelectedGameObject) return;
 		CheckInput();
 		if (!checkBounds) return;
-		CheckOutOfWidthBounds(transform.position);
-		CheckOutOfHeightBounds(transform.position);
+		CheckOutOfWidthBounds(mytransform.position);
+		CheckOutOfHeightBounds(mytransform.position);
 	}
 	private void FixedUpdate()
 	{
@@ -39,7 +37,7 @@ public class GravityHandler : PlayerBehaviour
 
 		HandleMovment();
 		CamerFollow();
-	}
+    }
 
 	protected override void CheckInput()
 	{
@@ -49,27 +47,26 @@ public class GravityHandler : PlayerBehaviour
 		currentSpeed = playerSpeed;
 		RB.gravityScale = gravity *= -1f;
 		cameraPosition.y *= -1f;
-		UIDisplay.Instance.CloseStartUI();
+		//LeanTween.value(gamePlayCamera.GetPosition().y, cameraPosition.y, 0.7f).setEaseOutSine().setOnUpdate(value => cameraPosition.y = value);
+
+        UIDisplay.Instance.CloseStartUI();
 	}
 	protected override void HandleMovment() 
 	{
-        transform.Translate(new Vector3(currentSpeed * Time.fixedDeltaTime, 0, 0), Space.World);
-		playerScore = (int)transform.position.x;
+        mytransform.Translate(new Vector3(currentSpeed * Time.fixedDeltaTime, 0, 0), Space.World);
+		playerScore = (int)mytransform.position.x;
 		if (playerScore > 0)
 			UIDisplay.Instance.UpdateScoreDisplay(playerScore);
     }
 
-    private const float Smooth_Camera = 4;
     private void CamerFollow()
 	{
-		Vector3 offSet = Vector3.LerpUnclamped(playerCamera.transform.position, cameraPosition, Smooth_Camera * Time.fixedDeltaTime);
-		if (transform.position.x >= playerCamera.transform.position.x)
-		{
-			checkBounds = true;
-            cameraPosition.x = transform.position.x;
-			CameraShaker.Instance.RestPositionOffset = offSet;
-		}
-	}
+		cameraPosition.x = mytransform.position.x;
+
+        if (mytransform.position.x < gamePlayCamera.GetPosition().x) return;
+		checkBounds = true;
+        gamePlayCamera.SmoothFollow(cameraPosition);
+    }
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{

@@ -7,8 +7,9 @@ public class ScoreSystem
 	public static int Score { get => score; set => score = value; }
 	public static void SaveBestScore() 
 	{
-		if (Score > GetBestScore())
+		if (IsBestScore())
             PlayerPrefs.SetInt(SceneManager.GetActiveScene().name, score);
 	}
 	public static int GetBestScore() => PlayerPrefs.GetInt(SceneManager.GetActiveScene().name);
+	public static bool IsBestScore() => Score > GetBestScore();
 }
