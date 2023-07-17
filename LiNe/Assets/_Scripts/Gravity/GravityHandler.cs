@@ -6,6 +6,7 @@ public class GravityHandler : PlayerBehaviour
 	[SerializeField] private float gravity;
     [SerializeField] private AudioClip deafaultsfx;
 	[SerializeField] private GamePlayCamera gamePlayCamera;
+    [SerializeField] private BestScoreIndicator bestScoreIndicator;
 
     [HideInInspector] public Rigidbody2D RB;
 	[HideInInspector] public AudioSource soundFX;
@@ -55,8 +56,9 @@ public class GravityHandler : PlayerBehaviour
 	{
         mytransform.Translate(new Vector3(currentSpeed * Time.fixedDeltaTime, 0, 0), Space.World);
 		playerScore = (int)mytransform.position.x;
-		if (playerScore > 0)
-			UIDisplay.Instance.UpdateScoreDisplay(playerScore);
+		if (playerScore < 0) return;
+		UIDisplay.Instance.UpdateScoreDisplay(playerScore);
+		bestScoreIndicator.SetBestScorePosition(Vector3.right * mytransform.position.x);
     }
 
     private void CamerFollow()

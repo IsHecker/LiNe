@@ -7,6 +7,7 @@ public class WaveHandler : PlayerBehaviour
     [SerializeField] private float gravityForce;
     [SerializeField] private AudioClip scoreup, deafaultsfx;
     [SerializeField] private GamePlayCamera gameplayCamera;
+    [SerializeField] private BestScoreIndicator bestScoreIndicator;
 
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public AudioSource TapSfx;
@@ -56,9 +57,11 @@ public class WaveHandler : PlayerBehaviour
         {
             TapSfx.PlayOneShot(scoreup, 1);
             UIDisplay.Instance.UpdateScoreDisplay(++playerScore, true);
-            ColumnSpawner.spawnTime -= 0.01f;
+            //ColumnSpawner.spawnTime -= 0.01f;
             playerSpeed += 0.02f;
             gravityForce += 0.01f;
+
+            bestScoreIndicator.SetBestScorePosition(new Vector3(gameplayCamera.CameraWidth, other.transform.position.y));
         }
     }
 

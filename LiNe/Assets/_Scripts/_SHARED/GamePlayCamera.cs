@@ -1,14 +1,21 @@
 using EZCameraShake;
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GamePlayCamera : MonoBehaviour
 {
     [SerializeField] private float smoothCamera;
     private Vector3 cameraPosition;
     private Transform mytransform;
+    private float _cameraWidth, _cameraHeight;
 
-    private void Start() => mytransform = GetComponent<Transform>();
+    private void Start() 
+    { 
+        _cameraWidth = Camera.main.ScreenToWorldPoint(Vector3.zero).x;
+        _cameraHeight = Camera.main.ScreenToWorldPoint(Vector3.zero).y;
+        mytransform = GetComponent<Transform>(); 
+    }
     public void SmoothFollow(Vector3 target)
     {
         cameraPosition = new Vector3(target.x, target.y, mytransform.position.z);
@@ -32,4 +39,6 @@ public class GamePlayCamera : MonoBehaviour
         SmoothFollow(cameraPosition);
     }
     public Vector3 GetPosition() => mytransform.position;
+    public float CameraWidth => _cameraWidth;
+    public float CameraHeight => _cameraHeight;
 }

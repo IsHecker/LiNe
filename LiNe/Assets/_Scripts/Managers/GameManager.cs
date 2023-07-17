@@ -3,9 +3,9 @@ using EZCameraShake;
 
 public class GameManager : MonoBehaviour
 {
-	[SerializeField] private GameObject Death;
-	[SerializeField] private Transform bestLine; //best score line ----
+	[SerializeField] private GameObject DeathEffect;
 	[SerializeField] private GameObject bestParticle;
+    [SerializeField] private BestScoreIndicator bestScoreIndicator;
 
     private static Camera _camera;
 	private Rigidbody2D RB;
@@ -22,9 +22,10 @@ public class GameManager : MonoBehaviour
 	{
 		CameraShaker.Instance.ShakeOnce(7, 5, 0, 2);
 		RB.bodyType = RigidbodyType2D.Static;
-		Instantiate(Death, RB.transform.position, Quaternion.identity);
+		Instantiate(DeathEffect, RB.transform.position, Quaternion.identity);
 		isGameover = true;
 
+		bestScoreIndicator.SavePosition();
 		ScoreSystem.SaveBestScore();
 		UIDisplay.Instance.GameOverDisplay();
 		MoneySystem.SaveMoney();

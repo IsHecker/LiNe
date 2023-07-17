@@ -4,15 +4,20 @@ using UnityEngine;
 public class ColumnSpawner : MonoBehaviour, ISpawner
 {
     [SerializeField] private ColomnData[] colomn;
-    [SerializeField] private List<GameObject> _columns = new List<GameObject>();
+    private List<GameObject> _columns = new List<GameObject>();
     //public GameObject Money;
 
 
-    public static float spawnTime = 2.3f;
+    public static float spawnTime = 2;
     public static bool pauseTask = true;
     private float timer = 0;
 
-    private void Update()
+    private void Start()
+    {
+        pauseTask = true;
+        for (int i = 0; i < 3; i++) Spawn();
+    }
+    private void FixedUpdate()
     {
         if (pauseTask) return;
 
@@ -20,6 +25,7 @@ public class ColumnSpawner : MonoBehaviour, ISpawner
         if (timer >= spawnTime)
             Spawn();
     }
+    private float offset = 0;
     public void Spawn()
     {
         //reset timer
@@ -27,7 +33,8 @@ public class ColumnSpawner : MonoBehaviour, ISpawner
         GameObject spawnedColumn;
         //spawn at random position
         int randomColumn = Random.Range(0, colomn.Length);
-        Vector3 randomPosition = new Vector3(Random.Range(colomn[randomColumn].min, colomn[randomColumn].max), transform.position.y, 0);
+        Vector3 randomPosition = new Vector3(Random.Range(colomn[randomColumn].min, colomn[randomColumn].max), offset, 0);
+        offset += 3;
         spawnedColumn = Instantiate(colomn[randomColumn].Colomn, randomPosition, transform.rotation);
 
         if (Random.Range(0, 11) == 5)

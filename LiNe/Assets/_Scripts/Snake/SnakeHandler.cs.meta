@@ -17,7 +17,7 @@ MonoImporter:
   - shakesfx: {fileID: 8300000, guid: 99874d7ca6d612b47a9a286d391bf254, type: 3}
   - finishsfx: {fileID: 8300000, guid: 9d4ff3c0142616244944f9eb1e4ee19a, type: 3}
   - foodsfx: {fileID: 8300000, guid: b785d7089977fbd419e9a91af6f314b1, type: 3}
-  executionOrder: 0
+  executionOrder: 100
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

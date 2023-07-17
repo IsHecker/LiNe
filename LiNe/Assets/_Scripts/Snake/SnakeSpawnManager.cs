@@ -9,7 +9,6 @@ public class SnakeSpawnManager : MonoBehaviour, ISpawner
     public void Spawn()
     {
         foodSpawner.Spawn();
-
         if (Random.Range(0, 16) != 10) return;
         MoneySpawnManager.Instance.SnakeMoneySpawn();
     }

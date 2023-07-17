@@ -19,7 +19,7 @@ public abstract class PlayerBehaviour : MonoBehaviour
     public float playerSpeed;
     protected float currentSpeed;
     protected Vector3 cameraPosition;
-    protected int playerScore;
+    protected int playerScore = 0;
     private event Action isDeadEvent = () => { };
     public void AddDeadEvent(Action action) => isDeadEvent += action;
     protected void GravityDirection(float x, float y) => Physics2D.gravity = new Vector2(x, y);

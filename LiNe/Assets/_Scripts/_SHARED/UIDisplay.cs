@@ -29,7 +29,7 @@ public class UIDisplay : MonoBehaviour
     [SerializeField] private Text bestScoreText;
     public void GameOverDisplay()
     {
-        scoreText.text = ScoreSystem.Score.ToString();
+        scoreText.text = ScoreSystem.PlayerScore.ToString();
         bestScoreText.text = ScoreSystem.GetBestScore().ToString();
         pauseButton.SetActive(false);
         GameOverUI.SetActive(true);
@@ -40,7 +40,7 @@ public class UIDisplay : MonoBehaviour
     {
         if (applyEffect) StartCoroutine(scoreanim());
         scoreDisplay.text = score.ToString();
-        ScoreSystem.Score = score;
+        ScoreSystem.PlayerScore = score;
         gameManager.IsBestScore();
         IEnumerator scoreanim()
         {
@@ -55,7 +55,6 @@ public class UIDisplay : MonoBehaviour
             }
         }
     }
-
     [Header("Saved GameObjects")]
     [SerializeField] private ScenesData scenesData;
     [SerializeField] private GameObject fpsCounter;

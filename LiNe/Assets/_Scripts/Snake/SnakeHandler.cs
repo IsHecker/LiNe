@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using EZCameraShake;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class SnakeHandler : PlayerBehaviour
 {
@@ -75,7 +76,7 @@ public class SnakeHandler : PlayerBehaviour
 
     void IncreaseDifficulty()
     {
-        if (targetPoints < 2) return;
+        if (targetPoints < 10) return;
         targetPoints = 0;
         playerSpeed += 0.15f;
         RotationSpeed += 5;
