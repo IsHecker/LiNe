@@ -1,34 +1,27 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public class Draw : MonoBehaviour
 {
-    [SerializeField] private Transform PlayerHead;
-    private List<Vector2> points = new List<Vector2>();
-    private EdgeCollider2D edge;
-    private TrailRenderer playerTrail;
-    private float trailTime;
-    private float timer = 0;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private TrailRenderer myTrail;
+    [SerializeField] private Transform player;
+    private EdgeCollider2D myCollider;
+    private List<Vector2> _points;
+    private void Start() => myCollider = GetComponent<EdgeCollider2D>();
+    private void FixedUpdate() => SetCollisionPoints();
+    private void SetCollisionPoints()
     {
-        points.Add(PlayerHead.transform.position);
-        edge = GetComponent<EdgeCollider2D>();
-        playerTrail = PlayerHead.gameObject.GetComponent<TrailRenderer>();
+        _points = new List<Vector2>();
+        for (int position = 0; position < myTrail.positionCount; position++)
+            _points.Add(myTrail.GetPosition(position));
+        if (_points.Count < 3) return;
+        RemovePoints();
+        myCollider.SetPoints(_points);
     }
-
-    // Update is called once per frame
-    void Update()
+    private void RemovePoints()
     {
-        trailTime = playerTrail.time;
-        if (timer <= trailTime && points.Count > 1) timer += Time.deltaTime;
-        if (Vector2.Distance(points.Last(), PlayerHead.position) > 0.15f) DrawCollision(PlayerHead.position);
-    }
-    void DrawCollision(Vector2 position)
-    {
-        if (timer > trailTime) points.RemoveAt(0);
-        if (points.Count > 1) edge.points = points.ToArray<Vector2>();
-        points.Add(position);
-    }
+        _points.RemoveAt(_points.Count - 1);
+        _points.RemoveAt(_points.Count - 1);
+        _points.RemoveAt(0);
+    } //Removing unnecessary Points that causes Problems
 }

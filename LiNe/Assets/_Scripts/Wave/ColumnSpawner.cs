@@ -3,45 +3,40 @@ using UnityEngine;
 
 public class ColumnSpawner : MonoBehaviour, ISpawner
 {
-    [SerializeField] private ColomnData[] colomn;
+    [SerializeField] private Transform player;
+    [SerializeField] private ColomnData[] column;
+    [SerializeField] private float distance;
     private List<GameObject> _columns = new List<GameObject>();
-    //public GameObject Money;
+    private GameObject spawnedColumn;
 
-
-    public static float spawnTime = 2;
     public static bool pauseTask = true;
-    private float timer = 0;
 
     private void Start()
     {
         pauseTask = true;
-        for (int i = 0; i < 3; i++) Spawn();
+        for (int i = 0; i < 5; i++) Spawn();
     }
     private void FixedUpdate()
     {
         if (pauseTask) return;
-
-        timer += Time.deltaTime;
-        if (timer >= spawnTime)
+        if (Vector2.Distance(spawnedColumn.transform.position, player.localPosition) < distance)
             Spawn();
     }
-    private float offset = 0;
+    private float spawnOffset = 0;
     public void Spawn()
     {
-        //reset timer
-        timer = 0;
-        GameObject spawnedColumn;
-        //spawn at random position
-        int randomColumn = Random.Range(0, colomn.Length);
-        Vector3 randomPosition = new Vector3(Random.Range(colomn[randomColumn].min, colomn[randomColumn].max), offset, 0);
-        offset += 3;
-        spawnedColumn = Instantiate(colomn[randomColumn].Colomn, randomPosition, transform.rotation);
+        int randomColumn = Random.Range(0, column.Length);
+        Vector3 randomPosition = new Vector3(Random.Range(column[randomColumn].MinWidth, column[randomColumn].MaxWidth), spawnOffset, 0);
+        spawnedColumn = Instantiate(column[randomColumn].Colomn, randomPosition, transform.rotation);
+        spawnOffset += column[randomColumn].SpawnPoint;
 
-        if (Random.Range(0, 11) == 5)
-            MoneySpawnManager.Instance.WaveMoneySpawn(new Vector3(Random.Range(-6, -10.5f), randomPosition.y + Random.Range(0.5f, 2.5f)));
+        if (Random.Range(0, 9) == 5)
+            MoneySpawnManager.Instance.WaveMoneySpawn(spawnedColumn.transform.position +
+                new Vector3(Random.Range(column[randomColumn].MinMoneyArea.x, column[randomColumn].MaxMoneyArea.x),
+                Random.Range(column[randomColumn].MinMoneyArea.y, column[randomColumn].MaxMoneyArea.y)));
         
         _columns.Add(spawnedColumn);
-        if (_columns.Count >= 5)
+        if (_columns.Count >= 10)
         {
             Destroy(_columns[0]);
             _columns.RemoveAt(0);

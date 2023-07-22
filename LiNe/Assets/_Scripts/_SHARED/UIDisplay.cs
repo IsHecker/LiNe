@@ -33,7 +33,6 @@ public class UIDisplay : MonoBehaviour
         bestScoreText.text = ScoreSystem.GetBestScore().ToString();
         pauseButton.SetActive(false);
         GameOverUI.SetActive(true);
-
         animator.Play("Game Over");
     }
     public void UpdateScoreDisplay(int score, bool applyEffect = false)

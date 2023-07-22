@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 public class GravityHandler : PlayerBehaviour
 {
 	[SerializeField] private float gravity;
-    [SerializeField] private AudioClip deafaultsfx;
 	[SerializeField] private GamePlayCamera gamePlayCamera;
     [SerializeField] private BestScoreIndicator bestScoreIndicator;
 
@@ -48,7 +47,7 @@ public class GravityHandler : PlayerBehaviour
 		currentSpeed = playerSpeed;
 		RB.gravityScale = gravity *= -1f;
 		cameraPosition.y *= -1f;
-		//LeanTween.value(gamePlayCamera.GetPosition().y, cameraPosition.y, 0.7f).setEaseOutSine().setOnUpdate(value => cameraPosition.y = value);
+        AudioManager.Instance.PlaySound(AudioHolder, "Tap");
 
         UIDisplay.Instance.CloseStartUI();
 	}

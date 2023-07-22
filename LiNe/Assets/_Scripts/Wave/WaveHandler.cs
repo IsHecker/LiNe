@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 
 public class WaveHandler : PlayerBehaviour
 {
     [SerializeField] private float gravityForce;
-    [SerializeField] private AudioClip scoreup, deafaultsfx;
     [SerializeField] private GamePlayCamera gameplayCamera;
     [SerializeField] private BestScoreIndicator bestScoreIndicator;
 
@@ -30,7 +28,7 @@ public class WaveHandler : PlayerBehaviour
         currentSpeed = playerSpeed;
         rb.gravityScale = gravityForce *= -1;
         tapParticle.Play();
-        TapSfx.Play();
+        AudioManager.Instance.PlaySound(AudioHolder, "Tap");
         UIDisplay.Instance.CloseStartUI();
     }
     protected override void HandleMovment() => mytransform.Translate(new Vector3(0, currentSpeed * Time.deltaTime), Space.World);
@@ -55,9 +53,7 @@ public class WaveHandler : PlayerBehaviour
     {
         if (other.gameObject.CompareTag("wall"))
         {
-            TapSfx.PlayOneShot(scoreup, 1);
             UIDisplay.Instance.UpdateScoreDisplay(++playerScore, true);
-            //ColumnSpawner.spawnTime -= 0.01f;
             playerSpeed += 0.02f;
             gravityForce += 0.01f;
 

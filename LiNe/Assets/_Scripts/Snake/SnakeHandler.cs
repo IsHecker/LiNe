@@ -1,24 +1,22 @@
 ﻿using UnityEngine;
 using EZCameraShake;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class SnakeHandler : PlayerBehaviour
 {
     //5, 1.5, 0, 0.8
-    [SerializeField] private float RotationSpeed = 100f, TailLength = 0.5f;
     [SerializeField] private GameObject DeathPrefab;
+    [SerializeField] private float RotationSpeed = 100f, TailLength = 0.5f;
 
+    private TrailRenderer trail;
+    private CameraHandler cameraHandler;
+    private SnakeSpawnManager spawnManager;
     private float Turn = 0f;
     private bool moveRight, moveLeft;
     private bool isGameStarted = false;
-    private AudioSource audiosfx;
-    private TrailRenderer trail;
-    private CameraHandler cameraHandler;
-
     private void Start()
     {
         trail = GetComponent<TrailRenderer>();
-        audiosfx = GetComponent<AudioSource>();
+        spawnManager = FindObjectOfType<SnakeSpawnManager>();
         cameraHandler = Camera.main.GetComponent<CameraHandler>();
         currentSpeed = playerSpeed;
     }
@@ -27,7 +25,7 @@ public class SnakeHandler : PlayerBehaviour
     {
         StopTurnLeft();
         moveRight = true;
-        audiosfx.Play();
+        AudioManager.Instance.PlaySound(AudioHolder, "Tap");
     }
 
     public void StopTurnRight() => moveRight = false;
@@ -36,7 +34,7 @@ public class SnakeHandler : PlayerBehaviour
     {
         StopTurnRight();
         moveLeft = true;
-        audiosfx.Play();
+        AudioManager.Instance.PlaySound(AudioHolder, "Tap");
     }
 
     public void StopTurnLeft() => moveLeft = false;
@@ -76,7 +74,7 @@ public class SnakeHandler : PlayerBehaviour
 
     void IncreaseDifficulty()
     {
-        if (targetPoints < 10) return;
+        if (targetPoints < 15) return;
         targetPoints = 0;
         playerSpeed += 0.15f;
         RotationSpeed += 5;
@@ -87,13 +85,23 @@ public class SnakeHandler : PlayerBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Food"))
-        { 
+        {
             trail.time += TailLength;
-            CameraShaker.Instance.ShakeOnce(5, 1.5f, 0, 0.8f);
-            UIDisplay.Instance.UpdateScoreDisplay(++playerScore, true);
             targetPoints++;
             IncreaseDifficulty();
+
+            CameraShaker.Instance.ShakeOnce(4, 2f, 0, 1f);
+            UIDisplay.Instance.UpdateScoreDisplay(++playerScore, true);
+            EatFood(collision.gameObject);
         }
+    }
+    private void EatFood(GameObject food)
+    {
+        food.GetComponent<Renderer>().enabled = false;
+        food.transform.GetChild(0).gameObject.SetActive(true);
+        spawnManager.Spawn();
+        AudioManager.Instance.PlaySound(AudioHolder, "Food");
+        Destroy(food, 1f);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

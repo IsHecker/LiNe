@@ -32,7 +32,7 @@ public class UIEvents : MonoBehaviour
     }
     private void ClosePauseUI() => PauseUI.SetActive(false);
 
-    public void RestartGame() => FindAnyObjectByType<Fading>().FadeTo(SceneManager.GetActiveScene().name);
+    public void RestartGame() { AudioManager.Instance.RestartEffect(); FindAnyObjectByType<Fading>().FadeTo(SceneManager.GetActiveScene().name); }
 
-    public void ExitGame() => FindAnyObjectByType<Fading>().FadeTo("Main Menu");
+    public void ExitGame() { AudioManager.Instance.RestartEffect(); FindAnyObjectByType<Fading>().FadeTo("Main Menu"); }
 }

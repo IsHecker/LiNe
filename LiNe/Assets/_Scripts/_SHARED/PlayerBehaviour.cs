@@ -12,8 +12,10 @@ public abstract class PlayerBehaviour : MonoBehaviour
         _camera = Camera.main;
         width = _camera.pixelWidth;
         height = _camera.pixelHeight;
+        ScoreSystem.PlayerScore = playerScore;
     }
 
+    [SerializeField] protected AudioClipsHolder AudioHolder;
     public int PlayerScore => playerScore;
     public GameManager gameManager;
     public float playerSpeed;
@@ -23,7 +25,7 @@ public abstract class PlayerBehaviour : MonoBehaviour
     private event Action isDeadEvent = () => { };
     public void AddDeadEvent(Action action) => isDeadEvent += action;
     protected void GravityDirection(float x, float y) => Physics2D.gravity = new Vector2(x, y);
-    protected virtual void Die() => isDeadEvent?.Invoke();
+    protected virtual void Die() { AudioManager.Instance.PlaySound(AudioHolder, "Death"); AudioManager.Instance.GameOverEffect(); isDeadEvent?.Invoke(); }
     protected abstract void CheckInput();
     protected abstract void HandleMovment();
     protected void CheckOutOfWidthBounds(Vector2 position)

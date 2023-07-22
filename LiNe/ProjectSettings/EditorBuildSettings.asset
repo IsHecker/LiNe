@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/INTRO/INTRO.unity
-    guid: 2abec055a44f4d140a9dc476cc3f2183
-  - enabled: 1
     path: Assets/Main Menu/Main Menu.unity
     guid: 36445c0862485174ca99f1abc35c4513
   - enabled: 1
@@ -20,7 +17,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Snake/Snake.unity
     guid: 3589ae54067044a4a85b34fbe3337f4c
-  - enabled: 1
-    path: Assets/INTRO/outro.unity
-    guid: 53445dea73cb5294d9f9a013dbdaa121
   m_configObjects: {}

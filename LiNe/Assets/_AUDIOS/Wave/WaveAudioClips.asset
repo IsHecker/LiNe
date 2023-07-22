@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3845b8384fcde6940970d0781e369ee8, type: 3}
+  m_Name: WaveAudioClips
+  m_EditorClassIdentifier: 
+  audioClips:
+  - ClipName: Death
+    AudioClip: {fileID: 8300000, guid: bdc4d72607c41634791378db54fad844, type: 3}
+  - ClipName: Tap
+    AudioClip: {fileID: 8300000, guid: 044556382cb882b4a997e59959e905b6, type: 3}
