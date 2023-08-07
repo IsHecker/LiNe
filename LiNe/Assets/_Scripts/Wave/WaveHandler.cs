@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class WaveHandler : PlayerBehaviour
 {
@@ -31,11 +30,16 @@ public class WaveHandler : PlayerBehaviour
         AudioManager.Instance.PlaySound(AudioHolder, "Tap");
         UIDisplay.Instance.CloseStartUI();
     }
-    protected override void HandleMovment() => mytransform.Translate(new Vector3(0, currentSpeed * Time.deltaTime), Space.World);
+    private Vector2 playerVelocity;
+    protected override void HandleMovment()
+    {
+        playerVelocity.Set(0, currentSpeed * Time.deltaTime);
+        mytransform.Translate(playerVelocity, Space.World);
+    }
 
     private void Update()
     {
-        if (gameManager.IsGameOver() || EventSystem.current.currentSelectedGameObject) return;
+        if (gameManager.IsGameOver() || Helpers.IsOverUI()) return;
         CheckInput();
         CheckOutOfWidthBounds(mytransform.position);
         CheckOutOfHeightBounds(mytransform.position);

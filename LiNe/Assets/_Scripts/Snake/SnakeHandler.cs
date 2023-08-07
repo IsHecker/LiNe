@@ -52,8 +52,8 @@ public class SnakeHandler : PlayerBehaviour
     }
     protected override void HandleMovment()
     {
-        transform.Translate(Vector2.up * playerSpeed * Time.fixedDeltaTime);
-        transform.Rotate(Vector3.forward * -Turn * RotationSpeed * Time.fixedDeltaTime);
+        transform.Translate(playerSpeed * Time.fixedDeltaTime * Vector2.up);
+        transform.Rotate(RotationSpeed * Time.fixedDeltaTime * -Turn * Vector3.forward);
     }
 
     private void Update()
@@ -106,7 +106,7 @@ public class SnakeHandler : PlayerBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "SnakeTail") Die();
+        if (collision.gameObject.CompareTag("SnakeTail")) Die();
     }
 
     

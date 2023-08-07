@@ -23,6 +23,7 @@ public class ColumnSpawner : MonoBehaviour, ISpawner
             Spawn();
     }
     private float spawnOffset = 0;
+    public void StartOffset(float offset) => spawnOffset = offset;
     public void Spawn()
     {
         int randomColumn = Random.Range(0, column.Length);

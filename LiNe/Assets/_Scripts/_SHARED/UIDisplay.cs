@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using UnityEngine.UIElements;
 
 public class UIDisplay : MonoBehaviour
 {
@@ -23,7 +22,7 @@ public class UIDisplay : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         RestoreData();
     }
-    public void CloseStartUI() => startUI.SetActive(false);
+    public void CloseStartUI() => startUI.SetActive(false); 
 
     [SerializeField] private Text scoreText;
     [SerializeField] private Text bestScoreText;
@@ -54,9 +53,11 @@ public class UIDisplay : MonoBehaviour
             }
         }
     }
+
     [Header("Saved GameObjects")]
     [SerializeField] private ScenesData scenesData;
     [SerializeField] private GameObject fpsCounter;
+
     private Canvas canvas;
 
     private void RestoreData()

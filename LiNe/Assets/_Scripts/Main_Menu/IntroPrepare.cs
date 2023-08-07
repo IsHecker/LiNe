@@ -1,57 +1,58 @@
 ﻿using UnityEngine;
-using UnityEngine.Rendering;
 
 public class IntroPrepare : MonoBehaviour
 {
     private Transform Head;
     private CameraControl cameraTweak;
-    private Animator anim;
+    private Animator animator;
     const byte Head_Speed = 2;
     const byte Initate_Point = 0;
-    Vector3 cameraOffset = Vector3.zero;
 
 
     [SerializeField] private Transform mainCamera;
+    [SerializeField] private Transform player;
+
     [SerializeField] private GameObject Line_Title;
     [SerializeField] private GameObject PTS_Title;
-    [SerializeField] private GameObject SelectionMode_UI;
 
     private bool isMenuPrepared = false;
     private bool firstTimeOpened = false;
+    private bool prepare; //if the screen is pressed and the menu showed up.
+
     private void Awake()
     {
         Head = GameObject.Find("Head").transform;
-        cameraTweak = Camera.main.GetComponent<CameraControl>();
-        anim = GetComponent<Animator>();
+        cameraTweak = Helpers.Camera.GetComponent<CameraControl>();
+        animator = GetComponent<Animator>();
         OpenPreparedMenu();
     }
     private void OpenPreparedMenu()
     {
         firstTimeOpened = ScenesData.firstTimeOpened;
-        SelectionMode_UI.SetActive(firstTimeOpened);
-        showTitles();
+        ShowTitles();
     }
     private void PrepareMainMenu()
     {
         if (isMenuPrepared) return;
         //if (!Input.GetMouseButtonDown(0) || !(Head.position.y >= Initate_Point + 2)) return;
         if (!Input.GetMouseButtonDown(0) && !firstTimeOpened) return;
-
+        MoveTitle();
         ScenesData.firstTimeOpened = true;
         prepare = true;
-        anim.SetBool("Menu", true);
+        animator.SetBool("menu", true);
     }
 
+    private Vector3 cameraOffset;
     private void CameraFollow()
     {
+        cameraOffset.Set(0, Head.position.y, -100);
         if (Head.transform.position.y >= 0)
-            mainCamera.position = new Vector3(0, Head.position.y, -100);
+            mainCamera.position = cameraOffset;
     }
 
-    private void HeadMoveAnimation() => Head.Translate(Vector2.up * Head_Speed * Time.deltaTime);
+    private void HeadMoveAnimation() => Head.Translate(Head_Speed * Time.deltaTime * Vector2.up);
 
-    private bool prepare; //if the screen is pressed and the menu showed up.
-    private void showTitles()
+    private void ShowTitles()
     {
         if(isMenuPrepared) return;
 
@@ -61,31 +62,30 @@ public class IntroPrepare : MonoBehaviour
         PTS_Title.SetActive(false);
     }
 
-    private void MoveTitle() => Line_Title.transform.position = new Vector3(cameraTweak.XSlider.localPosition.x, mainCamera.position.y, -10);
+    private void MoveTitle()
+    {
+        LeanTween.value(Line_Title.transform.position.x, 0, 1).setEaseOutQuart().
+            setOnUpdate(value => Line_Title.transform.position = 
+            new Vector3(value, Line_Title.transform.position.y, -10));
+    }
 
     const byte Resize_Time = 1;
     private void ResizeCameraAnimation()
     {
         if (!prepare || isMenuPrepared) return; 
-        float targetSize = 5;
+        float target = 1;
         float cameraSize = cameraTweak.MainCamera.orthographicSize;
-        LeanTween.value(cameraSize, targetSize, 0.7f).setEaseOutQuart().setOnUpdate((value) => { cameraTweak.MainCamera.orthographicSize = value; });
-        LeanTween.moveLocalX(cameraTweak.XSlider.gameObject, 0f, Resize_Time).setEaseOutQuart();
+        LeanTween.value(cameraSize, cameraSize + target, 0.7f).setEaseOutQuart().setOnUpdate((value) => { cameraTweak.MainCamera.orthographicSize = value; });
+        LeanTween.moveLocalX(cameraTweak.XSlider.gameObject, player.position.x - 1.5f, Resize_Time).setEaseOutQuart();
         isMenuPrepared = true;
-        //cameraTweak.Size = (5, 2);
     }
 
     private void Update()
     {
-        HeadMoveAnimation();
+        //HeadMoveAnimation();
         CameraFollow();
         PrepareMainMenu();
-        showTitles();
+        ShowTitles();
         ResizeCameraAnimation();
     }
-    private void LateUpdate()
-    {
-        MoveTitle();
-    }
-
 }

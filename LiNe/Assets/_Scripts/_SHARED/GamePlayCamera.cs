@@ -16,16 +16,20 @@ public class GamePlayCamera : MonoBehaviour
         _cameraHeight = Camera.main.ScreenToWorldPoint(Vector3.zero).y;
         mytransform = GetComponent<Transform>(); 
     }
+
+    private Vector3 cameraTarget;
     public void SmoothFollow(Vector3 target)
     {
-        cameraPosition = new Vector3(target.x, target.y, mytransform.position.z);
+        cameraTarget.Set(target.x, target.y, mytransform.position.z);
+        cameraPosition = cameraTarget;
         Vector3 smooth = Vector3.LerpUnclamped(transform.position, cameraPosition, smoothCamera * Time.fixedDeltaTime);
         (smooth.x, smooth.y) = ((float)Math.Round(smooth.x, 3), (float)Math.Round(smooth.y, 3));
         CameraShaker.Instance.RestPositionOffset = smooth;
     }
     public void Follow(Vector3 target)
     {
-        cameraPosition = new Vector3(target.x, target.y, mytransform.position.z);
+        cameraTarget.Set(target.x, target.y, mytransform.position.z);
+        cameraPosition = cameraTarget;
         CameraShaker.Instance.RestPositionOffset = cameraPosition;
     }
     public void FollowX(float x)

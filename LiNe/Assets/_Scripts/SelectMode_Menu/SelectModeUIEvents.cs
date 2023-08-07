@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-public class SelectModeUIEvents : MonoBehaviour
+using static Helpers;
+public class SelectModeUIEvents : MoneyBehaviour
 {
     [SerializeField] private Fading fader;
-    public void ToMainMenu() => fader.Canvastranstion("Selection Menu_UI");
+    [SerializeField] private Animator animator;
+
     public void ToWaveMode() => fader.FadeTo("Wave");
     public void ToGravityMode() => fader.FadeTo("Gravity");
     public void ToSnakeMode() => fader.FadeTo("Snake");

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class GravityHandler : PlayerBehaviour
 {
@@ -10,10 +9,11 @@ public class GravityHandler : PlayerBehaviour
     [HideInInspector] public Rigidbody2D RB;
 	[HideInInspector] public AudioSource soundFX;
 
-	private bool onGround = true;
+	private Transform mytransform;
+
+	private bool isOnGround = true;
 	private bool isGameStarted = false;
 	private bool checkBounds;
-	private Transform mytransform;
 
     private void Start()
     {
@@ -25,7 +25,7 @@ public class GravityHandler : PlayerBehaviour
 
 	private void Update()
 	{
-		if (gameManager.IsGameOver() || EventSystem.current.currentSelectedGameObject) return;
+		if (gameManager.IsGameOver() || Helpers.IsOverUI()) return;
 		CheckInput();
 		if (!checkBounds) return;
 		CheckOutOfWidthBounds(mytransform.position);
@@ -41,9 +41,9 @@ public class GravityHandler : PlayerBehaviour
 
 	protected override void CheckInput()
 	{
-		if (!Input.GetMouseButtonDown(0) || !onGround) return;
+		if (!Input.GetMouseButtonDown(0) || !isOnGround) return;
 		isGameStarted = true;
-		onGround = false;
+		isOnGround = false;
 		currentSpeed = playerSpeed;
 		RB.gravityScale = gravity *= -1f;
 		cameraPosition.y *= -1f;
@@ -51,9 +51,12 @@ public class GravityHandler : PlayerBehaviour
 
         UIDisplay.Instance.CloseStartUI();
 	}
+
+	private Vector3 playerVelocity;
 	protected override void HandleMovment() 
 	{
-        mytransform.Translate(new Vector3(currentSpeed * Time.fixedDeltaTime, 0, 0), Space.World);
+		playerVelocity.Set(currentSpeed * Time.fixedDeltaTime, 0, 0);
+        mytransform.Translate(playerVelocity, Space.World);
 		playerScore = (int)mytransform.position.x;
 		if (playerScore < 0) return;
 		UIDisplay.Instance.UpdateScoreDisplay(playerScore);
@@ -71,7 +74,7 @@ public class GravityHandler : PlayerBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		onGround = true; //cuz it hits the walls 
+		isOnGround = true; //cuz it hits the walls 
 		if (collision.collider.CompareTag("spike")) Die(); 
 	}
 }
