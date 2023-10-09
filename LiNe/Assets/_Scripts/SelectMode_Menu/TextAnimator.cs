@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class TextAnimator : MonoBehaviour
 {
-    public List<Animator> anims;
+    private List<Animator> anims;
+
     public string triggername;
     public float timebetweenletters;
     public float dealyafteranim;
-
     // Start is called before the first frame update
-    private void OnEnable()
+    private void Awake()
     {
         anims = new List<Animator>(GetComponentsInChildren<Animator>());
-        StartCoroutine(loop());
     }
-    IEnumerator loop()
+
+    private void OnEnable()
+    {
+        StartCoroutine(Loop());
+    }
+
+    private IEnumerator Loop()
     {
         foreach (Animator anim in anims)
         {
@@ -23,5 +28,9 @@ public class TextAnimator : MonoBehaviour
             anim.SetTrigger(triggername);
         }
         yield return new WaitForSeconds(dealyafteranim);
+    }
+    private void OnDisable()
+    {
+        StopCoroutine(Loop());
     }
 }

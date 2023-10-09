@@ -27,8 +27,8 @@ public class UIEvents : MonoBehaviour
     public void ResumeGame() 
     {
         Time.timeScale = 1; 
-        animator.Play("Pause Inversed");
-        Invoke("ClosePauseUI", 0.16f);
+        animator.Play("Pause Reversed");
+        Invoke(nameof(ClosePauseUI), 0.50f);
     }
     private void ClosePauseUI() => PauseUI.SetActive(false);
 

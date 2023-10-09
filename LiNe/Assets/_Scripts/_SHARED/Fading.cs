@@ -5,49 +5,59 @@ using System.Collections;
 
 public class Fading : MonoBehaviour
 {
+	[SerializeField] private Image img;
+    [SerializeField] private AnimationCurve curve;
+    [SerializeField] private GameObject[] canvasholder;
 
-	public Image img;
-	public AnimationCurve curve;
-	public GameObject[] canvasholder;
+	[SerializeField] private float fadeInSpeed = 2;
+	[SerializeField] private float fadeOutSpeed = 2;
+
+	[SerializeField] private float fadeInDelay = 1f;
+	[SerializeField] private float fadeOutDelay = 1f;
+
     void Start()
-	{
-		StartCoroutine(FadeIn());
-	}
+    {
+		if (ScenesData.isFirstTimeOpenedGame && SceneManager.GetActiveScene().name == "Main Menu")
+			fadeInDelay = 1f;
+
+        StartCoroutine(FadeIn());
+    }
 
     public void FadeTo(string scenename) => StartCoroutine(FadeOut(scenename));
 
     public void Canvastranstion(string UIName) => StartCoroutine(CanvasFadeOut(UIName));
 
-    IEnumerator FadeIn()
+    private IEnumerator FadeIn()
 	{
-		float t = 1f;
+		float t = fadeInDelay;
 
 		while (t > 0f)
 		{
-			t -= Time.deltaTime * 2;
+			t -= Time.deltaTime * fadeInSpeed;
 			float a = curve.Evaluate(t);
 			img.color = new Color(0f, 0f, 0f, a);
 			yield return 0;
 		}
+
 		img.raycastTarget = false;
 	}
 
-	IEnumerator FadeOut(string scene)
-	{
-		float t = 0f;
-		img.raycastTarget = true;
-		while (t < 1f)
-		{
-			t += Time.unscaledDeltaTime * 2;
-			float a = curve.Evaluate(t);
-			img.color = new Color(0f, 0f, 0f, a);
-			yield return 0;
-		}
-		Time.timeScale = 1f;
-		SceneManager.LoadScene(scene);
-	}
+    private IEnumerator FadeOut(string scene)
+    {
+        float t = 0f;
+        img.raycastTarget = true;
+        while (t < fadeOutDelay)
+        {
+            t += Time.unscaledDeltaTime * fadeOutSpeed;
+            float a = curve.Evaluate(t);
+            img.color = new Color(0f, 0f, 0f, a);
+            yield return 0;
+        }
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(scene);
+    }
 
-	IEnumerator CanvasFadeOut(string CanvasNameToOpen)
+    private IEnumerator CanvasFadeOut(string CanvasNameToOpen)
 	{
 		float t = 0f;
 		img.raycastTarget = true;
@@ -61,6 +71,7 @@ public class Fading : MonoBehaviour
 		canv(CanvasNameToOpen);
 		StartCoroutine(FadeIn());
 	}
+
 	public void canv(string canvasname)
 	{
 		string currentname;

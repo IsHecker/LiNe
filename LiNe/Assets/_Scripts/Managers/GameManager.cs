@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviour
 	{
 		_camera = Helpers.Camera;
 		_cameraControl = Helpers.Camera.GetComponent<CameraControl>();
+		player = FindAnyObjectByType<PlayerBehaviour>();
+		RB = player.GetComponent<Rigidbody2D>();
+		player.AddDeadEvent(GameOver);
     }
 	public void GameOver()
 	{
@@ -41,23 +44,4 @@ public class GameManager : MonoBehaviour
     public static Vector3 GetScreenArea() => new(_camera.ScreenToWorldPoint(Vector3.zero).x, _camera.ScreenToWorldPoint(Vector3.zero).y);
     public static GameObject SpawnObjectAtArea(GameObject prefab, Vector3 area) => Instantiate(prefab, area, Quaternion.identity);
     public bool IsGameOver() => isGameOver;
-	
-
-  //  class GamePreparation
-  //  {
-		//public void PrepareGame()
-  //      {
-  //          player = FindAnyObjectByType<PlayerBehaviour>();
-  //          RB = player.GetComponent<Rigidbody2D>();
-  //          player.AddDeadEvent(GameOver);
-  //      }
-		//public static void TargetCamera(Vector2 position, float time)
-  //      {
-  //          LeanTween.value(lineTitle.alpha, 1, 0.5f).setEaseOutQuart().setOnUpdate(value => lineTitle.alpha = value);
-  //      }
-  //      public static void TargetPlayerPosition(Vector2 position, float time)
-  //      {
-  //          LeanTween.value(lineTitle.alpha, 1, 0.5f).setEaseOutQuart().setOnUpdate(value => lineTitle.alpha = value);
-  //      }
-  //  }
 }

@@ -6,42 +6,63 @@ using static Helpers;
 public class ShopUIEvents : Singleton<ShopUIEvents>
 {
     [SerializeField] private Animator animator;
+
     [SerializeField] private ItemSelector colorSelector;
+
     [SerializeField] private TMPro.TMP_Text moneyDisplayText;
 
-    private IEquipableItem CurrentItem => GetPressedUI().GetComponent<IEquipableItem>();
-    private CameraControl cameraTweak;
+    public GameObject MakeSureUI;
 
-    public override void Awake()
+
+    private IEquipableItem CurrentItem => GetPressedUI().GetComponent<IEquipableItem>();
+
+    private void OnEnable()
     {
-        base.Awake();
         UpdateMoneyDisplay();
-        cameraTweak = Helpers.Camera.GetComponent<CameraControl>();
     }
-    //private void Start() => gameObject.SetActive(false);
-    private void UpdateMoneyDisplay() => moneyDisplayText.text = $"{MoneySystem .Money}$";
+
+    //private void Start() => Helpers.Invoke(() => gameObject.SetActive(false), 0.1f);
+
+    private void UpdateMoneyDisplay() => moneyDisplayText.text = $"{MoneySystem.Money}$";
+
     public void UpdateColorSelector(Transform target) => colorSelector.PointTo(target);
+
     public void UpdatePayState(int amount = 0, string state = "EnoughMoney")
     {
         moneyDisplayText.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = $"-{amount}$";
         moneyDisplayText.GetComponent<Animator>().SetTrigger(state);
         UpdateMoneyDisplay();
     }
+
     public void Equip() => CurrentItem.EquipItem();
 
-    public void ToMainMenu() { SaveLoadSystem.Instance.Save(); MoneySystem.SaveMoney(); ToMenuAnimation();}
+    public bool IsEnoughMoney(int itemPrice) => MoneySystem.Money >= itemPrice;
 
-    private void ToMenuAnimation() //Simple Animation for preparing shop
+
+    #region Animation Functions
+
+    public void ToMainMenu() 
     {
-        float cameraSize = cameraTweak.MainCamera.orthographicSize;
+        SaveLoadSystem.Instance.Save();
+        MoneySystem.SaveMoney();
+        ToMenuAnimation();
+    }
+
+    private void ToMenuAnimation() //Simple Animation for preparing Menu
+    {
+        CameraController cameraController = CameraController.Instance;
+        float cameraSize = cameraController.MainCamera.orthographicSize;
         float target = 1;
         float time = 1.3f;
         Vector3 targetPosition = Vector3.zero;
-        LeanTween.value(cameraSize, cameraSize - target, time).setEaseInOutBack().setOnUpdate((value) => { cameraTweak.MainCamera.orthographicSize = value; });
-        LeanTween.moveLocalX(cameraTweak.XSlider.gameObject, targetPosition.x, time).setEaseInOutBack();
-        LeanTween.moveLocalY(cameraTweak.YSlider.gameObject, targetPosition.y, time).setEaseInOutBack();
-        LeanTween.rotateZ(cameraTweak.Angle.gameObject, 0, time).setEaseInOutBack();
+        LeanTween.value(cameraSize, cameraSize - target, time).setEaseInOutBack().setOnUpdate((value) => { cameraController.MainCamera.orthographicSize = value; });
+        LeanTween.moveLocalX(cameraController.XSlider.gameObject, targetPosition.x, time).setEaseInOutBack();
+        LeanTween.moveLocalY(cameraController.YSlider.gameObject, targetPosition.y, time).setEaseInOutBack();
+        LeanTween.rotateZ(cameraController.Angle.gameObject, 0, time).setEaseInOutBack();
     }
+
+    #endregion
+
     #region implementing money check but didn't work
     //public void Buy()
     //{

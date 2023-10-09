@@ -14,6 +14,7 @@ namespace Save_System
         [ContextMenu("Generate ID")]
         private void GenerateID() => id = Guid.NewGuid().ToString();
 
+
         public object CaptureState()
         {
             var state = new Dictionary<string, object>();

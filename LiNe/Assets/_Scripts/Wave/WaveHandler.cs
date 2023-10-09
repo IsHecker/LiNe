@@ -27,7 +27,7 @@ public class WaveHandler : PlayerBehaviour
         currentSpeed = playerSpeed;
         rb.gravityScale = gravityForce *= -1;
         tapParticle.Play();
-        AudioManager.Instance.PlaySound(AudioHolder, "Tap");
+        //AudioManager.Instance.PlaySound(AudioHolder, "Tap");
         UIDisplay.Instance.CloseStartUI();
     }
     private Vector2 playerVelocity;
@@ -42,7 +42,6 @@ public class WaveHandler : PlayerBehaviour
         if (gameManager.IsGameOver() || Helpers.IsOverUI()) return;
         CheckInput();
         CheckOutOfWidthBounds(mytransform.position);
-        CheckOutOfHeightBounds(mytransform.position);
     }
 
     private void FixedUpdate()

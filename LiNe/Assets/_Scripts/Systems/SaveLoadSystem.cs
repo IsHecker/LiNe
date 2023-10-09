@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Save_System
 {
@@ -11,9 +12,15 @@ namespace Save_System
         private string SavePath => $"{Application.persistentDataPath}/Save.txt";
         public static SaveLoadSystem Instance { get; private set; }
 
-        private void Awake() => Instance = Instance == null ? this : Instance;
+        private void Awake() => Instance = Instance ?? this;
 
-        private void Start() => Load();
+        private void Start()
+        {
+            Load();
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene aScene, LoadSceneMode aMode) => Load();
 
         [ContextMenu("Save")]
         public void Save()
@@ -45,7 +52,7 @@ namespace Save_System
 
         private void CaptureAllObjectStates(Dictionary<string, object> state)
         {
-            IEnumerable<SaveableEntity> entities = FindObjectsOfType<MonoBehaviour>().OfType<SaveableEntity>();
+            var entities = FindObjectsOfType<SaveableEntity>();
             foreach (var saveable in entities) state[saveable.ID] = saveable.CaptureState();
         }
 

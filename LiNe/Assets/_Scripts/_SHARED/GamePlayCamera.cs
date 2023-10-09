@@ -1,7 +1,6 @@
 using EZCameraShake;
 using System;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class GamePlayCamera : MonoBehaviour
 {
@@ -22,7 +21,7 @@ public class GamePlayCamera : MonoBehaviour
     {
         cameraTarget.Set(target.x, target.y, mytransform.position.z);
         cameraPosition = cameraTarget;
-        Vector3 smooth = Vector3.LerpUnclamped(transform.position, cameraPosition, smoothCamera * Time.fixedDeltaTime);
+        Vector3 smooth = Vector3.LerpUnclamped(mytransform.position, cameraPosition, smoothCamera * Time.fixedDeltaTime);
         (smooth.x, smooth.y) = ((float)Math.Round(smooth.x, 3), (float)Math.Round(smooth.y, 3));
         CameraShaker.Instance.RestPositionOffset = smooth;
     }

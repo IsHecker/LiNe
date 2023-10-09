@@ -32,7 +32,7 @@ public class SwitchBehaviour : MonoBehaviour, ISaveable
     }
 
     private byte targetColorAlpha; 
-    private float duration = 0.09f;
+    private readonly float duration = 0.09f;
     private void ButtonColorTransition()
     {
         targetColorAlpha = (byte)(isTurnedOn ? 1 : 0);

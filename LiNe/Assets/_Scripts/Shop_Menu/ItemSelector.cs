@@ -6,8 +6,12 @@ using UnityEngine;
 public class ItemSelector : MonoBehaviour, ISaveable
 {
     const float Speed = 0.5f;
-    public void PointTo(Transform target) => LeanTween.moveLocal(gameObject, target.localPosition, Speed).setEaseOutQuint();
+
+
+    public void PointTo(Transform target) => transform.LeanMoveLocal(target.localPosition, Speed).setEaseOutQuint();
+
     public object CaptureSate() => new SaveData { x = transform.localPosition.x, y = transform.localPosition.y };
+
     public void RestoreState(object state)
     {
         SaveData savedData = (SaveData)state;

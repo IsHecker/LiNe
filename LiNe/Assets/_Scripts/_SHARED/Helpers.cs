@@ -7,6 +7,7 @@ public static class Helpers
 {
     private static Camera _camera;
     public static Camera Camera { get { if (_camera == null) { _camera = Camera.main;} return _camera; } }
+
     private readonly static Dictionary<float, WaitForSeconds> waitDictionary = new Dictionary<float, WaitForSeconds>();
     public static WaitForSeconds WaitFor(float seconds) => waitDictionary.TryGetValue(seconds, out var wait) ? wait : waitDictionary[seconds] = new WaitForSeconds(seconds);
     public static bool IsOverUI() => EventSystem.current.IsPointerOverGameObject();
@@ -20,13 +21,13 @@ public static class Helpers
     {
         targetUI.SetActive(true);
         animator.SetBool(boolName, state);
-        InvokeMethod(() => currentUI.SetActive(false), duration);
+        Invoke(() => currentUI.SetActive(false), duration);
     }
     public static void TransitionUI(GameObject currentUI, GameObject targetUI, Animator animator, string boolName, bool state, float duration)
     {
         targetUI.SetActive(true);
         animator.SetBool(boolName, state);
-        InvokeMethod(() => currentUI.SetActive(false), duration);
+        Invoke(() => currentUI.SetActive(false), duration);
     }
     public static T Find<T>(this T[] value, System.Func<T, bool> predicate)
     {
@@ -75,17 +76,17 @@ public static class Helpers
         }
 
     }
-    public static void InvokeMethod(System.Action Method, float time)
+    public static void Invoke(System.Action Method, float time)
     {
         time += Time.time;
         bool done = false;
         Update(() => { if (Time.time >= time) { Method?.Invoke(); done = true; } }, () => !done);
     }
-    public static void InvokeMethod<T>(System.Action<T> Method, float time)
+    public static void InvokeMethod<T>(System.Action<T> Method, T value, float time)
     {
         time += Time.time;
         bool done = false;
-        Update(() => { if (Time.time >= time + time) { Method?.Invoke(default(T)); done = true; } }, () => !done);
+        Update(() => { if (Time.time >= time + time) { Method?.Invoke(value); done = true; } }, () => !done);
     }
     public static void DeleteChildren(this Transform transform)
     {

@@ -16,6 +16,8 @@ TagManager:
   - bg
   - modebtn
   - endtrack
+  - enableswitch
+  - SaveAble
   layers:
   - Default
   - TransparentFX

@@ -13,6 +13,7 @@ public class SnakeHandler : PlayerBehaviour
     private float Turn = 0f;
     private bool moveRight, moveLeft;
     private bool isGameStarted = false;
+
     private void Start()
     {
         trail = GetComponent<TrailRenderer>();
@@ -23,6 +24,10 @@ public class SnakeHandler : PlayerBehaviour
 
     public void TurnRight()
     {
+        //To Start Game only When Left Or Right is pressed
+        isGameStarted = true;
+        UIDisplay.Instance.CloseStartUI();
+
         StopTurnLeft();
         moveRight = true;
         AudioManager.Instance.PlaySound(AudioHolder, "Tap");
@@ -32,6 +37,10 @@ public class SnakeHandler : PlayerBehaviour
 
     public void TurnLeft()
     {
+        //To Start Game only When Left Or Right is pressed
+        isGameStarted = true;
+        UIDisplay.Instance.CloseStartUI();
+
         StopTurnRight();
         moveLeft = true;
         AudioManager.Instance.PlaySound(AudioHolder, "Tap");
@@ -41,7 +50,6 @@ public class SnakeHandler : PlayerBehaviour
 
     protected override void CheckInput()
     {
-        if (Input.GetMouseButtonDown(0) ) { isGameStarted = true; UIDisplay.Instance.CloseStartUI(); }
 
         if (moveRight)
             Turn = 1;
@@ -50,6 +58,7 @@ public class SnakeHandler : PlayerBehaviour
         else
             Turn = 0;
     }
+
     protected override void HandleMovment()
     {
         transform.Translate(playerSpeed * Time.fixedDeltaTime * Vector2.up);
@@ -59,6 +68,7 @@ public class SnakeHandler : PlayerBehaviour
     private void Update()
     {
         CheckInput();
+
         CheckOutOfWidthBounds(transform.position);
         CheckOutOfHeightBounds(transform.position);
     }
@@ -72,7 +82,7 @@ public class SnakeHandler : PlayerBehaviour
 
     private int targetPoints = 0;
 
-    void IncreaseDifficulty()
+    private void IncreaseDifficulty()
     {
         if (targetPoints < 15) return;
         targetPoints = 0;
@@ -80,6 +90,7 @@ public class SnakeHandler : PlayerBehaviour
         RotationSpeed += 5;
         ResizeCamera();
     }
+
     private void ResizeCamera() => cameraHandler.IncreaseFOV();
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -93,13 +104,15 @@ public class SnakeHandler : PlayerBehaviour
             CameraShaker.Instance.ShakeOnce(4, 2f, 0, 1f);
             UIDisplay.Instance.UpdateScoreDisplay(++playerScore, true);
             EatFood(collision.gameObject);
+
+            spawnManager.Spawn();
         }
     }
+
     private void EatFood(GameObject food)
     {
         food.GetComponent<Renderer>().enabled = false;
         food.transform.GetChild(0).gameObject.SetActive(true);
-        spawnManager.Spawn();
         AudioManager.Instance.PlaySound(AudioHolder, "Food");
         Destroy(food, 1f);
     }
@@ -108,6 +121,4 @@ public class SnakeHandler : PlayerBehaviour
     {
         if (collision.gameObject.CompareTag("SnakeTail")) Die();
     }
-
-    
 }

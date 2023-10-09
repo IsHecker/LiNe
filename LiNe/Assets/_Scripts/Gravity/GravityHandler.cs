@@ -13,7 +13,6 @@ public class GravityHandler : PlayerBehaviour
 
 	private bool isOnGround = true;
 	private bool isGameStarted = false;
-	private bool checkBounds;
 
     private void Start()
     {
@@ -27,8 +26,6 @@ public class GravityHandler : PlayerBehaviour
 	{
 		if (gameManager.IsGameOver() || Helpers.IsOverUI()) return;
 		CheckInput();
-		if (!checkBounds) return;
-		CheckOutOfWidthBounds(mytransform.position);
 		CheckOutOfHeightBounds(mytransform.position);
 	}
 	private void FixedUpdate()
@@ -68,7 +65,6 @@ public class GravityHandler : PlayerBehaviour
 		cameraPosition.x = mytransform.position.x;
 
         if (mytransform.position.x < gamePlayCamera.GetPosition().x) return;
-		checkBounds = true;
         gamePlayCamera.SmoothFollow(cameraPosition);
     }
 
