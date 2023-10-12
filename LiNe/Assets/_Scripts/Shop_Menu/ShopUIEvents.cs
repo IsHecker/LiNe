@@ -21,7 +21,7 @@ public class ShopUIEvents : Singleton<ShopUIEvents>
         UpdateMoneyDisplay();
     }
 
-    //private void Start() => Helpers.Invoke(() => gameObject.SetActive(false), 0.1f);
+    private void Start() => Helpers.Invoke(() => gameObject.SetActive(false), 0.1f);
 
     private void UpdateMoneyDisplay() => moneyDisplayText.text = $"{MoneySystem.Money}$";
 
@@ -51,13 +51,13 @@ public class ShopUIEvents : Singleton<ShopUIEvents>
     private void ToMenuAnimation() //Simple Animation for preparing Menu
     {
         CameraController cameraController = CameraController.Instance;
-        float cameraSize = cameraController.MainCamera.orthographicSize;
+        float cameraSize = cameraController.Camera.orthographicSize;
         float target = 1;
         float time = 1.3f;
         Vector3 targetPosition = Vector3.zero;
-        LeanTween.value(cameraSize, cameraSize - target, time).setEaseInOutBack().setOnUpdate((value) => { cameraController.MainCamera.orthographicSize = value; });
-        LeanTween.moveLocalX(cameraController.XSlider.gameObject, targetPosition.x, time).setEaseInOutBack();
-        LeanTween.moveLocalY(cameraController.YSlider.gameObject, targetPosition.y, time).setEaseInOutBack();
+        LeanTween.value(cameraSize, cameraSize - target, time).setEaseInOutBack().setOnUpdate((value) => { cameraController.Camera.orthographicSize = value; });
+        LeanTween.moveLocalX(cameraController.CameraTransform.gameObject, targetPosition.x, time).setEaseInOutBack();
+        LeanTween.moveLocalY(cameraController.CameraTransform.gameObject, targetPosition.y, time).setEaseInOutBack();
         LeanTween.rotateZ(cameraController.Angle.gameObject, 0, time).setEaseInOutBack();
     }
 

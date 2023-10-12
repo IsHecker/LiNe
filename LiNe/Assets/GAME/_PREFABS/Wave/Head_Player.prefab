@@ -181,7 +181,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1943569478525364588}
   - component: {fileID: 1943569478525364579}
-  - component: {fileID: 5521479832334423618}
   - component: {fileID: 5563598203173127526}
   - component: {fileID: 1943569478525364577}
   - component: {fileID: 1943569478525364578}
@@ -230,26 +229,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &5521479832334423618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1943569478525364590}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe78eef47206dfd46a26955fa2b5a92c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AudioHolder: {fileID: 11400000, guid: cb1cb1473ff49034ea2081ac43f999e5, type: 2}
-  gameManager: {fileID: 0}
-  playerSpeed: 1.5
-  gravityForce: 1
-  gameplayCamera: {fileID: 0}
-  bestScoreIndicator: {fileID: 0}
-  rb: {fileID: 0}
-  TapSfx: {fileID: 0}
 --- !u!58 &5563598203173127526
 CircleCollider2D:
   m_ObjectHideFlags: 0

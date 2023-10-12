@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class ScoreSystem
 {
-	static int score = 0;
+	private static int score = 0;
 	public static int PlayerScore { get => score; set => score = value; }
 	public static void SaveBestScore() 
 	{

@@ -8,7 +8,6 @@ public class SnakeHandler : PlayerBehaviour
     [SerializeField] private float RotationSpeed = 100f, TailLength = 0.5f;
 
     private TrailRenderer trail;
-    private CameraHandler cameraHandler;
     private SnakeSpawnManager spawnManager;
     private float Turn = 0f;
     private bool moveRight, moveLeft;
@@ -18,7 +17,6 @@ public class SnakeHandler : PlayerBehaviour
     {
         trail = GetComponent<TrailRenderer>();
         spawnManager = FindObjectOfType<SnakeSpawnManager>();
-        cameraHandler = Camera.main.GetComponent<CameraHandler>();
         currentSpeed = playerSpeed;
     }
 
@@ -84,14 +82,15 @@ public class SnakeHandler : PlayerBehaviour
 
     private void IncreaseDifficulty()
     {
-        if (targetPoints < 15) return;
+        if (targetPoints < 5) return;
         targetPoints = 0;
         playerSpeed += 0.15f;
         RotationSpeed += 5;
-        ResizeCamera();
+
+        gameManager.IncreaseFOV();
     }
 
-    private void ResizeCamera() => cameraHandler.IncreaseFOV();
+    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -7,12 +7,9 @@ using UnityEngine.SceneManagement;
 
 namespace Save_System
 {
-    public class SaveLoadSystem : MonoBehaviour
+    public class SaveLoadSystem : SingletonPresistent<SaveLoadSystem>
     {
         private string SavePath => $"{Application.persistentDataPath}/Save.txt";
-        public static SaveLoadSystem Instance { get; private set; }
-
-        private void Awake() => Instance = Instance ?? this;
 
         private void Start()
         {

@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 4803917099868199723}
   - component: {fileID: 798544431}
   m_Layer: 0
-  m_Name: money
+  m_Name: Money
   m_TagString: money
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -6,16 +6,16 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Main Menu/Main Menu.unity
+    path: Assets/_SCENES/Main Menu.unity
     guid: 36445c0862485174ca99f1abc35c4513
   - enabled: 1
-    path: Assets/Wave/Wave.unity
+    path: Assets/_SCENES/Wave.unity
     guid: 3d499bae0009abe46996379cc9256af4
   - enabled: 1
-    path: Assets/Gravity/Gravity.unity
+    path: Assets/_SCENES/Gravity.unity
     guid: d7658c96f80fe7d44a7e36ef698eff6c
   - enabled: 1
-    path: Assets/Snake/Snake.unity
+    path: Assets/_SCENES/Snake.unity
     guid: 3589ae54067044a4a85b34fbe3337f4c
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 650b2685a53f5684cb7f4a3acc0b1182,

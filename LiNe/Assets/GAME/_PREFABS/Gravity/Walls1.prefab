@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4522119273356266918}
   - component: {fileID: 4522119273356266969}
   - component: {fileID: 4522119273356266919}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: colomn
   m_TagString: enableswitch
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4522119274203879313}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Walls1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 4522119275050791994}
   - component: {fileID: 4522119275050791997}
   - component: {fileID: 4522119275050791995}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: colomn (1)
   m_TagString: enableswitch
   m_Icon: {fileID: 0}
@@ -328,6 +328,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spike (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 9172438219382764310, guid: 95bbedd1e1907ee4994c1dba0add6606,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95bbedd1e1907ee4994c1dba0add6606, type: 3}
 --- !u!4 &1327378405318709402 stripped
@@ -402,6 +407,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Spike (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9172438219382764310, guid: 95bbedd1e1907ee4994c1dba0add6606,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95bbedd1e1907ee4994c1dba0add6606, type: 3}
@@ -478,6 +488,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spike (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 9172438219382764310, guid: 95bbedd1e1907ee4994c1dba0add6606,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95bbedd1e1907ee4994c1dba0add6606, type: 3}
 --- !u!4 &1327378404912642536 stripped
@@ -552,6 +567,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Spike (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9172438219382764310, guid: 95bbedd1e1907ee4994c1dba0add6606,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95bbedd1e1907ee4994c1dba0add6606, type: 3}
@@ -628,6 +648,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spike (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 9172438219382764310, guid: 95bbedd1e1907ee4994c1dba0add6606,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95bbedd1e1907ee4994c1dba0add6606, type: 3}
 --- !u!4 &1327378403913134878 stripped
@@ -702,6 +727,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Spike (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9172438219382764310, guid: 95bbedd1e1907ee4994c1dba0add6606,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95bbedd1e1907ee4994c1dba0add6606, type: 3}

@@ -1,76 +1,148 @@
 using EZCameraShake;
+using System;
 using UnityEngine;
 
 public class CameraController : Singleton<CameraController>
 {
-    [SerializeField] private Transform target;
-
+    [SerializeField] private float followSpeed = 10f;
     [SerializeField] private Vector3 positionOffset;
-    [SerializeField] private Vector3 angleOffset;
-
-    [SerializeField] private float smoothCamera;
-
-    [SerializeField] private bool follow = false;
-    [SerializeField] private bool applyOnXFollow = false;
-    [SerializeField] private bool applyOnYFollow = false;
 
     [SerializeField] private Transform ZRotation;
-    [SerializeField] private Transform XMovment;
-    [SerializeField] private Transform YMovment;
 
-    [HideInInspector] public Camera MainCamera;
+    [Header("Auto Follow")]
+    [SerializeField] private Transform target;
+    [SerializeField] private bool autoFollow = false;
+    [SerializeField] private bool XFollow = false;
+    [SerializeField] private bool YFollow = false;
 
-    private Transform _myTransfrom;
+    private Transform mytransform;
 
+    private float _cameraWidth, _cameraHeight;
+
+    private Vector3 cameraPosition;
     private Vector3 cameraTarget;
+    private Vector3 autoCameraTarget;
+
+    private Transform cameraTransform;
+
+    private Camera _camera;
+
+
+    #region Properties
+
+    public Camera Camera => _camera;
 
     public Transform Target { get => target; set { if (value != null) target = value; } }
 
-    public Vector3 PositionOffset { get => positionOffset; set => positionOffset = value; }
-    public Vector3 AngleOffset { get => angleOffset; set => angleOffset = value; }
+    public Transform CameraTransform => cameraTransform;
 
-    public Transform XSlider { get => XMovment; set => XMovment.position = Vector2.right * value.localPosition; }
-    public Transform YSlider { get => YMovment; set => YMovment.position = Vector2.up * value.position; }
+    public Vector3 PositionOffset { get => positionOffset; set => positionOffset = value; }
+
     public Transform Angle { get => ZRotation; set => ZRotation.localRotation = Quaternion.Euler(0, 0, value.rotation.z); }
 
-    protected override void Awake()
+    #endregion
+
+
+    private void Start()
     {
-        base.Awake();
-        MainCamera = Helpers.Camera;
-        ZRotation = ZRotation.transform;
-        XMovment = XMovment.transform;
-        YMovment = YMovment.transform;
-        _myTransfrom = GetComponent<Transform>();
+        mytransform = GetComponent<Transform>();
+        _camera = Helpers.Camera;
+        cameraTransform = Helpers.Camera.transform;
+
+        _cameraWidth = Camera.main.ScreenToWorldPoint(Vector3.zero).x;
+        _cameraHeight = Camera.main.ScreenToWorldPoint(Vector3.zero).y;
     }
 
-
-    private void LateUpdate()
+    private void Update()
     {
-        if (!follow || target == null) return;
-        
         AutoFollow();
     }
 
+    #region Follow Functions
+
     private void AutoFollow()
     {
+        if (!autoFollow || !target) return;
+
         FollowDirection();
 
-        _myTransfrom.position = cameraTarget + positionOffset;
+        SmoothFollow(autoCameraTarget + positionOffset);
+
+        void FollowDirection()
+        {
+            if (XFollow)
+                autoCameraTarget.Set(target.position.x, 0, 0);
+            if (YFollow)
+                autoCameraTarget.Set(0, target.position.y, 0);
+        }
     }
 
-    private void FollowDirection()
+    public void SmoothFollow(Vector3 target)
     {
-        if (applyOnXFollow)
-            cameraTarget.Set(target.position.x, 0, 0);
-        else if (applyOnYFollow)
-            cameraTarget.Set(0, target.position.y, 0);
+        target += positionOffset;
+        cameraPosition.Set(target.x, target.y, mytransform.position.z);
+        Vector3 smooth = Vector3.LerpUnclamped(mytransform.position, cameraPosition, followSpeed * Time.deltaTime);
+        (smooth.x, smooth.y) = ((float)Math.Round(smooth.x, 3), (float)Math.Round(smooth.y, 3));
+
+        if (CameraShaker.Instance != null)
+            CameraShaker.Instance.RestPositionOffset = smooth;
         else
-            cameraTarget.Set(target.position.x, target.position.y, 0);
+            mytransform.position = smooth;
     }
 
-    public void SetFollow(bool follow) => this.follow = follow;
+    public void Follow(Vector3 target)
+    {
+        target += positionOffset;
+        cameraTarget.Set(target.x, target.y, mytransform.position.z);
+        cameraPosition = cameraTarget;
 
-    public void SetXFollow(bool follow) => this.applyOnXFollow = follow;
+        if (CameraShaker.Instance != null)
+            CameraShaker.Instance.RestPositionOffset = cameraPosition;
+        else
+            mytransform.position = cameraPosition;
+    }
 
-    public void SetYFollow(bool follow) => this.applyOnYFollow = follow;
+    public void FollowX(float x)
+    {
+        cameraPosition = Vector3.right * x;
+        Follow(cameraPosition);
+    }
+
+    public void FollowY(float y)
+    {
+        cameraPosition = Vector3.up * y;
+        SmoothFollow(cameraPosition);
+    }
+
+    #endregion
+
+    #region Simple Tweening
+
+    public LTDescr Move(Vector3 to, float time) => LeanTween.moveLocal(_camera.gameObject, to, time);
+
+    public LTDescr MoveX(float to, float time) => LeanTween.moveLocalX(_camera.gameObject, to, time);
+
+    public LTDescr MoveY(float to, float time) => LeanTween.moveLocalY(_camera.gameObject, to, time);
+
+    public LTDescr Size(float to, float time) => LeanTween.value(_camera.orthographicSize, to, time)
+        .setIgnoreTimeScale(true).setOnUpdate((value) 
+        => { _camera.orthographicSize = value; });
+
+    public LTDescr RotateZ(float to, float time) => LeanTween.rotateZ(_camera.gameObject, to, time);
+
+    #endregion
+
+    #region Other Functions
+
+    public void SetXFollow(bool follow) => this.XFollow = follow;
+
+    public void SetYFollow(bool follow) => this.YFollow = follow;
+
+    public Vector3 GetPosition() => mytransform.position;
+
+    public float CameraWidth => _cameraWidth;
+
+    public float CameraHeight => _cameraHeight;
+
+    #endregion
 }

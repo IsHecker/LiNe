@@ -3,34 +3,44 @@ using UnityEngine;
 public class GravityHandler : PlayerBehaviour
 {
 	[SerializeField] private float gravity;
-	[SerializeField] private GamePlayCamera gamePlayCamera;
+	[SerializeField] private CameraController gamePlayCamera;
     [SerializeField] private BestScoreIndicator bestScoreIndicator;
 
-    [HideInInspector] public Rigidbody2D RB;
 	[HideInInspector] public AudioSource soundFX;
 
 	private Transform mytransform;
 
-	private bool isOnGround = true;
-	private bool isGameStarted = false;
+	[SerializeField] private float inputHoldTime;
+	private float touchInputStartTime;
+	public float distance;
+	public LayerMask whatisground;
+	private bool jumpInput;
+    private bool isGameStarted = false;
+
+    private Vector3 playerVelocity;
+
 
     private void Start()
     {
 		mytransform = GetComponent<Transform>();
-		RB = GetComponent<Rigidbody2D>();
         cameraPosition = new Vector3(0, 0.5f, -10);
         GravityDirection(0, -9.8f);
     }
 
 	private void Update()
 	{
-		if (gameManager.IsGameOver() || Helpers.IsOverUI()) return;
+		if (gameManager.IsGameOver() || Helpers.IsOverUI())
+			return;
+
+		CheckInputHoldTime();
 		CheckInput();
 		CheckOutOfHeightBounds(mytransform.position);
 	}
+
 	private void FixedUpdate()
 	{
-		if (!isGameStarted || gameManager.IsGameOver()) return;
+		if (!isGameStarted || gameManager.IsGameOver()) 
+			return;
 
 		HandleMovment();
 		CamerFollow();
@@ -38,10 +48,20 @@ public class GravityHandler : PlayerBehaviour
 
 	protected override void CheckInput()
 	{
-		if (!Input.GetMouseButtonDown(0) || !isOnGround) return;
-		isGameStarted = true;
-		isOnGround = false;
-		currentSpeed = playerSpeed;
+		if (Input.GetMouseButtonDown(0))
+		{
+			jumpInput = true;
+
+            touchInputStartTime = Time.time;
+            isGameStarted = true;
+        }
+
+		if (!jumpInput || !IsGround((int)gravity))
+			return;
+
+		UseJumpInput();
+
+        currentSpeed = playerSpeed;
 		RB.gravityScale = gravity *= -1f;
 		cameraPosition.y *= -1f;
         AudioManager.Instance.PlaySound(AudioHolder, "Tap");
@@ -49,13 +69,15 @@ public class GravityHandler : PlayerBehaviour
         UIDisplay.Instance.CloseStartUI();
 	}
 
-	private Vector3 playerVelocity;
 	protected override void HandleMovment() 
 	{
 		playerVelocity.Set(currentSpeed * Time.fixedDeltaTime, 0, 0);
         mytransform.Translate(playerVelocity, Space.World);
 		playerScore = (int)mytransform.position.x;
-		if (playerScore < 0) return;
+
+		if (playerScore < 0)
+			return;
+
 		UIDisplay.Instance.UpdateScoreDisplay(playerScore);
 		bestScoreIndicator.SetBestScorePosition(Vector3.right * mytransform.position.x);
     }
@@ -70,7 +92,27 @@ public class GravityHandler : PlayerBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		isOnGround = true; //cuz it hits the walls 
 		if (collision.collider.CompareTag("spike")) Die(); 
 	}
+
+	private void CheckInputHoldTime()
+	{
+		if (Time.time > touchInputStartTime + inputHoldTime)
+			jumpInput = false;
+	}
+
+	private void UseJumpInput()=> jumpInput = false;
+
+    private void OnDrawGizmos()
+    {
+		Gizmos.color = Color.red;
+        Vector2 dir = gravity > 0 ? Vector2.down : Vector2.up;
+		Gizmos.DrawLine(transform.position, transform.position + (Vector3)(dir * distance));
+    }
+
+    private bool IsGround(int gravityDirection)
+	{
+		Vector2 dir = gravityDirection > 0 ? Vector2.down : Vector2.up;
+		return Physics2D.Raycast(mytransform.position, dir, distance, whatisground);
+    }
 }

@@ -4,37 +4,66 @@ using UnityEngine;
 public class ColumnSpawner : MonoBehaviour, ISpawner
 {
     [SerializeField] private Transform player;
-    [SerializeField] private ColomnData[] column;
-    [SerializeField] private float distance;
+
+    [SerializeField] private ColomnData[] columnData;
+
+    [SerializeField] private float distanceToSpawn;
+
     private List<GameObject> _columns = new List<GameObject>();
+
+    private PlayerBehaviour playerBehaviour;
+
     private GameObject spawnedColumn;
 
     public static bool pauseTask = true;
 
+    private float spawnOffset = 0;
+
+    private int startIndex = 0, lastIndex = 1;
+    private int targetScoreToSpawn = 5;
+
+
     private void Start()
     {
+        playerBehaviour = FindObjectOfType<PlayerBehaviour>();
+
         pauseTask = true;
         for (int i = 0; i < 5; i++) Spawn();
     }
+
     private void FixedUpdate()
     {
         if (pauseTask) return;
-        if (Vector2.Distance(spawnedColumn.transform.position, player.localPosition) < distance)
+
+        if (Vector2.Distance(spawnedColumn.transform.position, player.localPosition) < distanceToSpawn)
             Spawn();
     }
-    private float spawnOffset = 0;
-    public void StartOffset(float offset) => spawnOffset = offset;
+
     public void Spawn()
     {
-        int randomColumn = Random.Range(0, column.Length);
-        Vector3 randomPosition = new Vector3(Random.Range(column[randomColumn].MinWidth, column[randomColumn].MaxWidth), spawnOffset, 0);
-        spawnedColumn = Instantiate(column[randomColumn].Colomn, randomPosition, transform.rotation);
-        spawnOffset += column[randomColumn].SpawnPoint;
+        if (playerBehaviour.PlayerScore >= targetScoreToSpawn)
+        {
+            targetScoreToSpawn += lastIndex >= 3 ? 10 : 5; //changing required score to spawn a column to "10"
+            
+            if (lastIndex < columnData.Length - 1)
+            {
+                if (lastIndex >= 3) startIndex++;
+                lastIndex++;
+            }
+        }
 
-        if (Random.Range(0, 9) == 5)
-            MoneySpawnManager.Instance.WaveMoneySpawn(spawnedColumn.transform.position +
-                new Vector3(Random.Range(column[randomColumn].MinMoneyArea.x, column[randomColumn].MaxMoneyArea.x),
-                Random.Range(column[randomColumn].MinMoneyArea.y, column[randomColumn].MaxMoneyArea.y)));
+
+        int randomColumn = Random.Range(startIndex, lastIndex);
+
+        Vector3 randomPosition = new Vector3(Random.Range(columnData[randomColumn].minRandomPosition, columnData[randomColumn].maxRandomPosition), spawnOffset, 0);
+
+        spawnedColumn = Instantiate(columnData[randomColumn].Colomn, randomPosition, transform.rotation);
+
+        spawnOffset += columnData[randomColumn].NextSpawnPoint;
+
+        MoneySpawnManager.Instance.WaveMoneySpawn(spawnedColumn.transform.position +
+            new Vector3(Random.Range(columnData[randomColumn].MinMoneyArea.x, columnData[randomColumn].MaxMoneyArea.x),
+            Random.Range(columnData[randomColumn].MinMoneyArea.y, columnData[randomColumn].MaxMoneyArea.y)));
         
         _columns.Add(spawnedColumn);
         if (_columns.Count >= 10)

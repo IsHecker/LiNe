@@ -3,7 +3,7 @@
 public class WaveHandler : PlayerBehaviour
 {
     [SerializeField] private float gravityForce;
-    [SerializeField] private GamePlayCamera gameplayCamera;
+    [SerializeField] private CameraController gameplayCamera;
     [SerializeField] private BestScoreIndicator bestScoreIndicator;
 
     [HideInInspector] public Rigidbody2D rb;
@@ -11,6 +11,10 @@ public class WaveHandler : PlayerBehaviour
 
     private ParticleSystem tapParticle; //effect played when tapping screen
     private Transform mytransform;
+
+    private Vector2 playerVelocity;
+
+
     void Start()
     {
         mytransform = GetComponent<Transform>();
@@ -23,14 +27,21 @@ public class WaveHandler : PlayerBehaviour
     protected override void CheckInput()
     {
         if (!Input.GetMouseButtonDown(0)) return;
+
         ColumnSpawner.pauseTask = false;
+
         currentSpeed = playerSpeed;
+
         rb.gravityScale = gravityForce *= -1;
+
+
         tapParticle.Play();
         //AudioManager.Instance.PlaySound(AudioHolder, "Tap");
+
         UIDisplay.Instance.CloseStartUI();
     }
-    private Vector2 playerVelocity;
+
+
     protected override void HandleMovment()
     {
         playerVelocity.Set(0, currentSpeed * Time.deltaTime);
@@ -40,6 +51,7 @@ public class WaveHandler : PlayerBehaviour
     private void Update()
     {
         if (gameManager.IsGameOver() || Helpers.IsOverUI()) return;
+
         CheckInput();
         CheckOutOfWidthBounds(mytransform.position);
     }
@@ -49,7 +61,7 @@ public class WaveHandler : PlayerBehaviour
         if (gameManager.IsGameOver()) return;
 
         HandleMovment();
-        gameplayCamera.FollowY(mytransform.position.y + 2.5f);
+        gameplayCamera.FollowY(mytransform.position.y);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -68,6 +80,4 @@ public class WaveHandler : PlayerBehaviour
     {
         if (other.gameObject.CompareTag("wall")) Die();
     }
-
-
 }

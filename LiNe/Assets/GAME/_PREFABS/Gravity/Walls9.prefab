@@ -665,7 +665,7 @@ GameObject:
   - component: {fileID: 4777838250318600346}
   - component: {fileID: 4777838250318600349}
   - component: {fileID: 4777838250318600347}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: colomn (1)
   m_TagString: enableswitch
   m_Icon: {fileID: 0}
@@ -774,7 +774,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4777838250696145713}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Walls9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -831,7 +831,7 @@ GameObject:
   - component: {fileID: 4777838252013117702}
   - component: {fileID: 4777838252013117817}
   - component: {fileID: 4777838252013117703}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: colomn
   m_TagString: enableswitch
   m_Icon: {fileID: 0}

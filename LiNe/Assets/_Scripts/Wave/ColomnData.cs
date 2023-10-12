@@ -4,8 +4,8 @@
 public class ColomnData
 {
     public GameObject Colomn;
-    public float MinWidth, MaxWidth;
-    public float SpawnPoint;
+    public float minRandomPosition, maxRandomPosition;
+    public float NextSpawnPoint;
     public Vector2 MinMoneyArea;
     public Vector2 MaxMoneyArea;
 }

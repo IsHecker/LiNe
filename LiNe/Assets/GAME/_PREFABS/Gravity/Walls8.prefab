@@ -447,7 +447,7 @@ GameObject:
   - component: {fileID: 2453793150075991756}
   - component: {fileID: 2453793150075991731}
   - component: {fileID: 2453793150075991757}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: colomn
   m_TagString: enableswitch
   m_Icon: {fileID: 0}
@@ -556,7 +556,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2453793151376649467}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Walls8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -601,7 +601,7 @@ GameObject:
   - component: {fileID: 2453793151636246352}
   - component: {fileID: 2453793151636246359}
   - component: {fileID: 2453793151636246353}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: colomn (1)
   m_TagString: enableswitch
   m_Icon: {fileID: 0}

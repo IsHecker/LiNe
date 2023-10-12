@@ -3,8 +3,18 @@ using UnityEngine;
 public class MoneySpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject moneyPrefab;
+
     public static MoneySpawnManager Instance;
+
+
     private void Awake() => Instance = this;
+
+    public void WaveMoneySpawn(Vector3 position)
+    {
+        if (Random.Range(0, 9) == 5)
+            Instantiate(moneyPrefab, position, Quaternion.identity);
+    }
+
     public void SnakeMoneySpawn()
     {
         Vector3 screenArea = GameManager.GetScreenArea();
@@ -15,8 +25,6 @@ public class MoneySpawnManager : MonoBehaviour
             Random.Range(height + 0.67f, -height - 2.17f)));
         LeanTween.scale(money, new Vector3(0.9f, 0.9f, 1f), 0.8f).setEaseInOutSine().setLoopPingPong();
     }
-
-    public void WaveMoneySpawn(Vector3 position) => Instantiate(moneyPrefab, position, Quaternion.identity);
 
     public void GravityMoneySpawn() { }
 }

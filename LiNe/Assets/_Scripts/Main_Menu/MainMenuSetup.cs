@@ -52,7 +52,7 @@ public class MainMenuSetup : MonoBehaviour
     {
         if (Head.position.y >= 0)
         {
-            cameraController.SetFollow(true);
+            cameraController.SetYFollow(true);
         }
     }
 
@@ -86,9 +86,9 @@ public class MainMenuSetup : MonoBehaviour
         if (!prepare || isMenuPrepared) return; 
 
         float target = 1;
-        float cameraSize = cameraController.MainCamera.orthographicSize;
-        LeanTween.value(cameraSize, cameraSize + target, 0.7f).setEaseOutQuart().setOnUpdate((value) => { cameraController.MainCamera.orthographicSize = value; });
-        LeanTween.moveLocalX(cameraController.XSlider.gameObject, player.position.x - 1.5f, Resize_Time).setEaseOutQuart();
+        float cameraSize = cameraController.Camera.orthographicSize;
+        LeanTween.value(cameraSize, cameraSize + target, 0.7f).setEaseOutQuart().setOnUpdate((value) => { cameraController.Camera.orthographicSize = value; });
+        LeanTween.moveLocalX(cameraController.CameraTransform.gameObject, player.position.x - 1.5f, Resize_Time).setEaseOutQuart();
         isMenuPrepared = true;
     }
 
