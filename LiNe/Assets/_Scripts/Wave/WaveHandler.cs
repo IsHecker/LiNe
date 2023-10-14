@@ -66,7 +66,7 @@ public class WaveHandler : PlayerBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("wall"))
+        if (other.gameObject.CompareTag("Obstacle"))
         {
             UIDisplay.Instance.UpdateScoreDisplay(++playerScore, true);
             playerSpeed += 0.02f;
@@ -78,6 +78,6 @@ public class WaveHandler : PlayerBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("wall")) Die();
+        Die();
     }
 }

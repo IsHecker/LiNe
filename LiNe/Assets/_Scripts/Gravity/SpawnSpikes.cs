@@ -1,37 +1,56 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SpawnSpikes : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> spikes = new List<GameObject>();
-    [SerializeField] private GameObject[] spikePrefabs;
-    private Transform playerPosition;
-    private float currentPosition = 5.5f;
-    // Start is called before the first frame update
+    [SerializeField] private ObstacleData[] obstaclesData;
+
+    private ObjectPool objectPool;
+
+    private PlayerBehaviour playerBehaviour;
+
+    private int startIndex = 0, lastIndex = 1;
+    private int spawnOffset = 7;
+    private int targetScoreToSpawn = 5;
+
+    private GameObject lastObstacle;
+
+
     private void Start()
     {
-        playerPosition = GameObject.Find("Head_Player").transform;
+        objectPool = new ObjectPool(obstaclesData);
+
+        playerBehaviour = FindObjectOfType<PlayerBehaviour>();
+
         Spawn();
     }
 
-    // Update is called once per frame
     private void Update()
     {
-        if (Vector3.Distance(playerPosition.position, spikes[spikes.Count - 1].transform.position) < 5)
+        if (Vector3.Distance(playerBehaviour.transform.position, lastObstacle.transform.position) < 5)
             Spawn();
 
     }
+
     private void Spawn()
     {
-        
-        if (spikes.Count > 2)
-		{
-            Destroy(spikes[0]);
-            spikes.RemoveAt(0);
-		}
-        GameObject go = Instantiate(spikePrefabs[Random.Range(0,spikePrefabs.Length)], new Vector3(currentPosition, -1.976524f), Quaternion.identity);
-        currentPosition += 10;
-        spikes.Add(go);
+        if (playerBehaviour.PlayerScore >= targetScoreToSpawn)
+        {
+            targetScoreToSpawn += 5;
+
+            if (lastIndex < obstaclesData.Length - 1)
+            {
+                if (lastIndex > 5) startIndex++;
+                lastIndex++;
+            }
+        }
+
+
+        int randomObstacle = Helpers.GenerateRandomNumber(startIndex, lastIndex);
+
+        Vector2 spawnPosition = Vector2.right * spawnOffset;
+
+        lastObstacle = objectPool.GetFromPool(obstaclesData[randomObstacle].ObstacleName, spawnPosition, Quaternion.identity);
+
+        spawnOffset += (int)obstaclesData[randomObstacle].NextSpawnPoint;
     }
 }

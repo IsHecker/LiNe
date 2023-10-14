@@ -2,18 +2,26 @@ using UnityEngine;
 
 public class GravityHandler : PlayerBehaviour
 {
+	public float distance;
+
+	public LayerMask whatisground;
+
+
 	[SerializeField] private float gravity;
+	[SerializeField] private float inputHoldTime;
+
 	[SerializeField] private CameraController gamePlayCamera;
+
     [SerializeField] private BestScoreIndicator bestScoreIndicator;
+
 
 	[HideInInspector] public AudioSource soundFX;
 
+
 	private Transform mytransform;
 
-	[SerializeField] private float inputHoldTime;
 	private float touchInputStartTime;
-	public float distance;
-	public LayerMask whatisground;
+
 	private bool jumpInput;
     private bool isGameStarted = false;
 
@@ -23,7 +31,7 @@ public class GravityHandler : PlayerBehaviour
     private void Start()
     {
 		mytransform = GetComponent<Transform>();
-        cameraPosition = new Vector3(0, 0.5f, -10);
+		cameraPosition += Vector3.up * 0.5f;
         GravityDirection(0, -9.8f);
     }
 
@@ -62,8 +70,11 @@ public class GravityHandler : PlayerBehaviour
 		UseJumpInput();
 
         currentSpeed = playerSpeed;
+
 		RB.gravityScale = gravity *= -1f;
+
 		cameraPosition.y *= -1f;
+
         AudioManager.Instance.PlaySound(AudioHolder, "Tap");
 
         UIDisplay.Instance.CloseStartUI();
@@ -92,7 +103,7 @@ public class GravityHandler : PlayerBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (collision.collider.CompareTag("spike")) Die(); 
+		if (collision.collider.CompareTag("Obstacle")) Die(); 
 	}
 
 	private void CheckInputHoldTime()

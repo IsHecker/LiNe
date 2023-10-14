@@ -8,9 +8,10 @@ public static class Helpers
     private static Camera _camera;
     public static Camera Camera { get { if (_camera == null) { _camera = Camera.main;} return _camera; } }
 
-    private readonly static Dictionary<float, WaitForSeconds> waitDictionary = new Dictionary<float, WaitForSeconds>();
 
+    private readonly static Dictionary<float, WaitForSeconds> waitDictionary = new Dictionary<float, WaitForSeconds>();
     public static WaitForSeconds WaitFor(float seconds) => waitDictionary.TryGetValue(seconds, out var wait) ? wait : waitDictionary[seconds] = new WaitForSeconds(seconds);
+    
     
     public static bool IsOverUI() => EventSystem.current.IsPointerOverGameObject();
     
@@ -43,8 +44,8 @@ public static class Helpers
         return default(T);
     }
 
+   
     public delegate bool Condition();
-
     public static void Update(System.Action Method, Condition condition)
     {
         UpdateProcess();
@@ -105,4 +106,84 @@ public static class Helpers
     {
         foreach(Transform child in transform) Object.Destroy(child.gameObject);
     }
+
+    private static RandomNumber randomNumber = new RandomNumber();
+    public static int GenerateRandomNumber(int minRange, int maxRange)
+    {
+        return randomNumber.GetRandomNumber(minRange, maxRange);
+    }
+}
+
+public class RandomNumber
+{
+    private int previousRandom;
+    private bool firstTime = true;
+
+    // You can call this method to get a random number without consecutive repetitions.
+    public int GetRandomNumber(int minRange, int maxRange)
+    {
+        int randomValue;
+        do
+        {
+            randomValue = Random.Range(minRange, maxRange + 1);
+
+            // If it's the first time or the generated value is different from the previous one, break.
+            if (firstTime || randomValue != previousRandom)
+            {
+                break;
+            }
+        } while (true);
+
+        previousRandom = randomValue;
+        firstTime = false;
+
+        return randomValue;
+    }
+
+
+    //private List<int> shuffledNumbers;
+    //private int currentIndex = 0;
+
+    //private List<int> GenerateShuffledNumbers(int min, int max)
+    //{
+    //    List<int> numbers = new List<int>();
+    //    for (int i = min; i <= max; i++)
+    //    {
+    //        numbers.Add(i);
+    //    }
+
+    //    // Shuffle the list using the Fisher-Yates algorithm
+    //    int n = numbers.Count;
+    //    for (int i = n - 1; i > 0; i--)
+    //    {
+    //        int j = Random.Range(0, i + 1);
+    //        (numbers[j], numbers[i]) = (numbers[i], numbers[j]);
+    //    }
+
+    //    return numbers;
+    //}
+
+    //// You can call this method to get a random number without consecutive repetitions.
+    //public int GetRandomNumber(int min, int max)
+    //{
+    //    if (currentIndex >= shuffledNumbers.Count)
+    //    {
+    //        // If we've iterated through all shuffled numbers, reshuffle the list.
+    //        shuffledNumbers = GenerateShuffledNumbers(min, max);
+    //        currentIndex = 0;
+    //    }
+
+    //    int randomValue = shuffledNumbers[currentIndex];
+    //    currentIndex++;
+
+    //    // If the next number is the same as the previous, swap it with the last number.
+    //    if (currentIndex > 1 && randomValue == shuffledNumbers[currentIndex - 2])
+    //    {
+    //        int temp = shuffledNumbers[currentIndex - 1];
+    //        shuffledNumbers[currentIndex - 1] = shuffledNumbers[currentIndex - 2];
+    //        shuffledNumbers[currentIndex - 2] = temp;
+    //    }
+
+    //    return randomValue;
+    //}
 }

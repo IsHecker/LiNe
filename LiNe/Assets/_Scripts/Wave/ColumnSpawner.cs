@@ -5,26 +5,31 @@ public class ColumnSpawner : MonoBehaviour, ISpawner
 {
     [SerializeField] private Transform player;
 
-    [SerializeField] private ColomnData[] columnData;
+    [SerializeField] private ColumnData[] obstacleData;
 
     [SerializeField] private float distanceToSpawn;
 
-    private List<GameObject> _columns = new List<GameObject>();
+    private readonly List<GameObject> _columns = new List<GameObject>();
 
     private PlayerBehaviour playerBehaviour;
 
     private GameObject spawnedColumn;
 
+    private ObjectPool objectPool;
+
     public static bool pauseTask = true;
 
     private float spawnOffset = 0;
 
-    private int startIndex = 0, lastIndex = 1;
+    private int lastIndex = 3;
+    private int startIndex = 0;
     private int targetScoreToSpawn = 5;
 
 
     private void Start()
     {
+        objectPool = new ObjectPool(obstacleData);
+
         playerBehaviour = FindObjectOfType<PlayerBehaviour>();
 
         pauseTask = true;
@@ -38,37 +43,38 @@ public class ColumnSpawner : MonoBehaviour, ISpawner
         if (Vector2.Distance(spawnedColumn.transform.position, player.localPosition) < distanceToSpawn)
             Spawn();
     }
-
+    
     public void Spawn()
     {
+        //Obtacle Proggresion
         if (playerBehaviour.PlayerScore >= targetScoreToSpawn)
         {
-            targetScoreToSpawn += lastIndex >= 3 ? 10 : 5; //changing required score to spawn a column to "10"
-            
-            if (lastIndex < columnData.Length - 1)
+            targetScoreToSpawn += 5;
+
+            if (lastIndex < obstacleData.Length - 1)
             {
-                if (lastIndex >= 3) startIndex++;
+                if (lastIndex > 5) startIndex++;
                 lastIndex++;
             }
         }
 
 
-        int randomColumn = Random.Range(startIndex, lastIndex);
+        int randomColumn = Helpers.GenerateRandomNumber(startIndex, lastIndex);
 
-        Vector3 randomPosition = new Vector3(Random.Range(columnData[randomColumn].minRandomPosition, columnData[randomColumn].maxRandomPosition), spawnOffset, 0);
+        Vector3 randomPosition = new Vector3(Random.Range(obstacleData[randomColumn].minRandomPosition, obstacleData[randomColumn].maxRandomPosition), spawnOffset, 0);
 
-        spawnedColumn = Instantiate(columnData[randomColumn].Colomn, randomPosition, transform.rotation);
+        spawnedColumn = objectPool.GetFromPool(obstacleData[randomColumn].ObstacleName, randomPosition, transform.rotation);
 
-        spawnOffset += columnData[randomColumn].NextSpawnPoint;
+        spawnOffset += obstacleData[randomColumn].NextSpawnPoint;
 
         MoneySpawnManager.Instance.WaveMoneySpawn(spawnedColumn.transform.position +
-            new Vector3(Random.Range(columnData[randomColumn].MinMoneyArea.x, columnData[randomColumn].MaxMoneyArea.x),
-            Random.Range(columnData[randomColumn].MinMoneyArea.y, columnData[randomColumn].MaxMoneyArea.y)));
+            new Vector3(Random.Range(obstacleData[randomColumn].MinMoneyArea.x, obstacleData[randomColumn].MaxMoneyArea.x),
+            Random.Range(obstacleData[randomColumn].MinMoneyArea.y, obstacleData[randomColumn].MaxMoneyArea.y)));
         
         _columns.Add(spawnedColumn);
-        if (_columns.Count >= 10)
+        if (_columns.Count >= 7)
         {
-            Destroy(_columns[0]);
+            _columns[0].SetActive(false);
             _columns.RemoveAt(0);
         }
     }

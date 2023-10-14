@@ -560,7 +560,7 @@ Transform:
   - {fileID: 198408238}
   - {fileID: 6326762744701572235}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &988817960
 GameObject:
@@ -730,7 +730,7 @@ Transform:
   - {fileID: 403797692553485086}
   - {fileID: 1542016325}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1159868076
 GameObject:
@@ -761,7 +761,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1368591779
 GameObject:
@@ -792,7 +792,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!850595691 &1396293402
 LightingSettings:
@@ -1500,7 +1500,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1707263233
 GameObject:
@@ -6415,7 +6415,7 @@ Transform:
   - {fileID: 1580831591}
   - {fileID: 1865467866}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1852754393
 GameObject:
@@ -6508,7 +6508,7 @@ Transform:
   - {fileID: 222293248}
   - {fileID: 6326762746245801862}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2060490784
 GameObject:
@@ -6539,7 +6539,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &2117594396 stripped
 RectTransform:
@@ -6809,7 +6809,7 @@ PrefabInstance:
     - target: {fileID: 659333124236182472, guid: 7dd25f430ebb16244b78b7265becba9c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 659333124236182472, guid: 7dd25f430ebb16244b78b7265becba9c,
         type: 3}
@@ -14528,47 +14528,69 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1580831591}
-  columnData:
-  - Colomn: {fileID: 7478728194488287552, guid: 0d138ccf82886c34990ee6806189bf93,
+  obstacleData:
+  - ObstacleName: Column_1
+    ObstaclePrefab: {fileID: 7478728194488287552, guid: 0d138ccf82886c34990ee6806189bf93,
       type: 3}
+    NextSpawnPoint: 4
     minRandomPosition: -1
     maxRandomPosition: 1
-    NextSpawnPoint: 4
     MinMoneyArea: {x: -2, y: 0.5}
     MaxMoneyArea: {x: 2, y: 2.5}
-  - Colomn: {fileID: 2973576512570537911, guid: ae7bb17fc6d36c949928411389b6290a,
+  - ObstacleName: Column_2
+    ObstaclePrefab: {fileID: 2973576512570537911, guid: ae7bb17fc6d36c949928411389b6290a,
       type: 3}
+    NextSpawnPoint: 4
     minRandomPosition: -1.25
     maxRandomPosition: 1.25
-    NextSpawnPoint: 4
     MinMoneyArea: {x: -2.5, y: 0.75}
     MaxMoneyArea: {x: 1.75, y: 2}
-  - Colomn: {fileID: 9112808312593490562, guid: 9d54082b0f9d0de4aac7bcdb428245d0,
+  - ObstacleName: Column_3
+    ObstaclePrefab: {fileID: 9112808312593490562, guid: 9d54082b0f9d0de4aac7bcdb428245d0,
       type: 3}
+    NextSpawnPoint: 4
     minRandomPosition: -1.5
     maxRandomPosition: 1.5
-    NextSpawnPoint: 4
     MinMoneyArea: {x: -3, y: 0.75}
     MaxMoneyArea: {x: 1.75, y: 2}
-  - Colomn: {fileID: 1592559590962808126, guid: d8f98a0a6b3e4534ca2b92b91283c599,
+  - ObstacleName: Column_4
+    ObstaclePrefab: {fileID: 1592559590962808126, guid: d8f98a0a6b3e4534ca2b92b91283c599,
       type: 3}
+    NextSpawnPoint: 4
     minRandomPosition: 0
     maxRandomPosition: 0
-    NextSpawnPoint: 4
     MinMoneyArea: {x: -2.5, y: 1.5}
     MaxMoneyArea: {x: 1.5, y: 3}
-  - Colomn: {fileID: 6516806779708415441, guid: 246560f16f79d4143909bc62b7436af5,
+  - ObstacleName: Column_5
+    ObstaclePrefab: {fileID: 6516806779708415441, guid: 246560f16f79d4143909bc62b7436af5,
       type: 3}
+    NextSpawnPoint: 4
     minRandomPosition: 0
     maxRandomPosition: 0
-    NextSpawnPoint: 4
     MinMoneyArea: {x: -2, y: 2.5}
     MaxMoneyArea: {x: 2, y: 2.75}
-  - Colomn: {fileID: 2535025834858333865, guid: ed89e1c77942ae4448b3922d5f052858,
+  - ObstacleName: Column_6
+    ObstaclePrefab: {fileID: 7445773562508592335, guid: 09900df47f798fb4a8700a293804ab8d,
       type: 3}
+    NextSpawnPoint: 4
     minRandomPosition: -0.5
     maxRandomPosition: 0.5
-    NextSpawnPoint: 4
+    MinMoneyArea: {x: -3, y: 0.5}
+    MaxMoneyArea: {x: 2, y: 2.5}
+  - ObstacleName: Column_7
+    ObstaclePrefab: {fileID: 2535025834858333865, guid: ed89e1c77942ae4448b3922d5f052858,
+      type: 3}
+    NextSpawnPoint: 3
+    minRandomPosition: 0
+    maxRandomPosition: 0
+    MinMoneyArea: {x: -3, y: 0.5}
+    MaxMoneyArea: {x: 2, y: 2.5}
+  - ObstacleName: Column_8
+    ObstaclePrefab: {fileID: 45689195816689598, guid: 8177fa886fd56a145810f934069c9422,
+      type: 3}
+    NextSpawnPoint: 3
+    minRandomPosition: 0
+    maxRandomPosition: 0
     MinMoneyArea: {x: -3, y: 0.5}
     MaxMoneyArea: {x: 2, y: 2.5}
   distanceToSpawn: 10
@@ -14598,7 +14620,7 @@ GameObject:
   - component: {fileID: 6326762746245801862}
   - component: {fileID: 6326762746245801861}
   m_Layer: 0
-  m_Name: COLUMN SPAWN_MANAGER
+  m_Name: Obstacle Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
