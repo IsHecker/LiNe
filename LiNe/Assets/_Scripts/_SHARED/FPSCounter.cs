@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class FPSCounter : IOptionable
 {
@@ -14,7 +12,7 @@ public class FPSCounter : IOptionable
     private void OnEnable()
     {
         frames = GetComponent<TMPro.TMP_Text>();
-        InvokeRepeating(nameof(FPS), 0, 1.5f);
+        InvokeRepeating(nameof(FPS), 0, 1f);
     }
 
     private void FPS()

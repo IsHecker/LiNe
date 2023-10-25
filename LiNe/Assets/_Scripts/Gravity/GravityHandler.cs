@@ -37,7 +37,7 @@ public class GravityHandler : PlayerBehaviour
 
 	private void Update()
 	{
-		if (gameManager.IsGameOver() || Helpers.IsOverUI())
+		if (gameManager.IsGameOver())
 			return;
 
 		CheckInputHoldTime();
@@ -51,12 +51,13 @@ public class GravityHandler : PlayerBehaviour
 			return;
 
 		HandleMovment();
-		CamerFollow();
+        CamerFollow();
+		UpdateScore();
     }
 
 	protected override void CheckInput()
 	{
-		if (Input.GetMouseButtonDown(0))
+		if (TouchInput())
 		{
 			jumpInput = true;
 
@@ -73,9 +74,7 @@ public class GravityHandler : PlayerBehaviour
 
 		RB.gravityScale = gravity *= -1f;
 
-		cameraPosition.y *= -1f;
-
-        AudioManager.Instance.PlaySound(AudioHolder, "Tap");
+        AudioManager.Instance?.PlaySound(AudioHolder, "Tap");
 
         UIDisplay.Instance.CloseStartUI();
 	}
@@ -84,21 +83,27 @@ public class GravityHandler : PlayerBehaviour
 	{
 		playerVelocity.Set(currentSpeed * Time.fixedDeltaTime, 0, 0);
         mytransform.Translate(playerVelocity, Space.World);
-		playerScore = (int)mytransform.position.x;
-
-		if (playerScore < 0)
-			return;
-
-		UIDisplay.Instance.UpdateScoreDisplay(playerScore);
-		bestScoreIndicator.SetBestScorePosition(Vector3.right * mytransform.position.x);
+		
     }
 
     private void CamerFollow()
-	{
-		cameraPosition.x = mytransform.position.x;
+    {
+		cameraPosition.Set(mytransform.position.x, Mathf.Clamp(mytransform.position.y, -0.5f, 0.5f), -10);
 
         if (mytransform.position.x < gamePlayCamera.GetPosition().x) return;
-        gamePlayCamera.SmoothFollow(cameraPosition);
+
+		gamePlayCamera.SmoothFollow(cameraPosition);
+    }
+
+	private void UpdateScore()
+    {
+		playerScore = (int)mytransform.position.x;
+
+		if (playerScore < 0) return;
+
+		UIDisplay.Instance.UpdateScoreDisplay(playerScore);
+
+		bestScoreIndicator.SetBestScorePosition(Vector3.right * mytransform.position.x);
     }
 
 	private void OnCollisionEnter2D(Collision2D collision)
@@ -112,7 +117,7 @@ public class GravityHandler : PlayerBehaviour
 			jumpInput = false;
 	}
 
-	private void UseJumpInput()=> jumpInput = false;
+	private void UseJumpInput() => jumpInput = false;
 
     private void OnDrawGizmos()
     {
@@ -125,5 +130,14 @@ public class GravityHandler : PlayerBehaviour
 	{
 		Vector2 dir = gravityDirection > 0 ? Vector2.down : Vector2.up;
 		return Physics2D.Raycast(mytransform.position, dir, distance, whatisground);
+    }
+
+    private bool TouchInput()
+    {
+        if (Input.touchCount <= 0)
+			return false;
+
+        Touch touch = Input.GetTouch(0);
+        return Helpers.IsOverUI(touch);
     }
 }

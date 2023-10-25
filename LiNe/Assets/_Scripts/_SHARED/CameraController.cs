@@ -53,7 +53,7 @@ public class CameraController : Singleton<CameraController>
         _cameraHeight = Camera.main.ScreenToWorldPoint(Vector3.zero).y;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         AutoFollow();
     }
@@ -66,14 +66,14 @@ public class CameraController : Singleton<CameraController>
 
         FollowDirection();
 
-        SmoothFollow(autoCameraTarget + positionOffset);
+        SmoothFollow(autoCameraTarget);
 
         void FollowDirection()
         {
             if (XFollow)
-                autoCameraTarget.Set(target.position.x, 0, 0);
+                autoCameraTarget.Set(target.position.x, autoCameraTarget.y, autoCameraTarget.z);
             if (YFollow)
-                autoCameraTarget.Set(0, target.position.y, 0);
+                autoCameraTarget.Set(autoCameraTarget.x, target.position.y, autoCameraTarget.z);
         }
     }
 

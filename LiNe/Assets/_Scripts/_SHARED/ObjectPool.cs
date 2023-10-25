@@ -18,13 +18,18 @@ public class ObjectPool
 
     private readonly Transform objectPool;
 
-    public ObjectPool(ObstacleData[] data)
+    private readonly int poolSize;
+
+
+    public ObjectPool(ObstacleData[] data, int poolSize)
     {
         pools = new Pool[data.Length];
 
         objectPool = GameObject.Find("Object Pool").transform;
 
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
+
+        this.poolSize = poolSize;
 
 
         GrowPool(data);
@@ -59,14 +64,13 @@ public class ObjectPool
 
     private void GrowPool(ObstacleData[] data)
     {
-
         for (int i = 0; i < data.Length; i++)
         {
             pools[i] = new Pool
             {
                 poolName = data[i].ObstacleName,
                 prefab = data[i].ObstaclePrefab,
-                size = 6
+                size = poolSize
             };
         }
     }

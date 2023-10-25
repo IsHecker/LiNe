@@ -5,7 +5,7 @@ public class ColumnSpawner : MonoBehaviour, ISpawner
 {
     [SerializeField] private Transform player;
 
-    [SerializeField] private ColumnData[] obstacleData;
+    [SerializeField] private WaveObstacleData[] obstacleData;
 
     [SerializeField] private float distanceToSpawn;
 
@@ -28,7 +28,7 @@ public class ColumnSpawner : MonoBehaviour, ISpawner
 
     private void Start()
     {
-        objectPool = new ObjectPool(obstacleData);
+        objectPool = new ObjectPool(obstacleData, poolSize: 6);
 
         playerBehaviour = FindObjectOfType<PlayerBehaviour>();
 
@@ -67,10 +67,9 @@ public class ColumnSpawner : MonoBehaviour, ISpawner
 
         spawnOffset += obstacleData[randomColumn].NextSpawnPoint;
 
-        MoneySpawnManager.Instance.WaveMoneySpawn(spawnedColumn.transform.position +
-            new Vector3(Random.Range(obstacleData[randomColumn].MinMoneyArea.x, obstacleData[randomColumn].MaxMoneyArea.x),
-            Random.Range(obstacleData[randomColumn].MinMoneyArea.y, obstacleData[randomColumn].MaxMoneyArea.y)));
-        
+        MoneySpawnManager.Instance.WaveMoneySpawn(obstacleData[randomColumn], spawnedColumn.transform);
+
+
         _columns.Add(spawnedColumn);
         if (_columns.Count >= 7)
         {

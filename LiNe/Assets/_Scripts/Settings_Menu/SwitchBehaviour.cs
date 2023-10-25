@@ -19,7 +19,8 @@ public class SwitchBehaviour : MonoBehaviour, ISaveable
 
     public void SwitchOnOff() 
     {
-        buttonText.text = !isTurnedOn ? "ON" : "OFF"; 
+        buttonText.text = !isTurnedOn ? "ON" : "OFF";
+        buttonText.fontStyle = !isTurnedOn? FontStyles.Underline : FontStyles.Normal;
         buttonText.color = !isTurnedOn ? Color.black : Color.white;
         isTurnedOn = !isTurnedOn;
         ButtonColorTransition();

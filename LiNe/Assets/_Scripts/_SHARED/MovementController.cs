@@ -2,10 +2,6 @@ using UnityEngine;
 
 public class MovementController : MonoBehaviour
 {
-    [SerializeField] private bool tween = true;
-
-    [SerializeField] private EaseAnimationMode easeType;
-
     [SerializeField] private float speed;
 
     [SerializeField] private bool movement;
@@ -16,8 +12,9 @@ public class MovementController : MonoBehaviour
 
 
     [Header("LOOP")]
+    [SerializeField] private bool tween = true;
 
-    [SerializeField] private bool loop;
+    [SerializeField] private EaseAnimationMode easeType;
 
     [SerializeField] private float destination;
     [SerializeField] private float degree;
@@ -47,19 +44,16 @@ public class MovementController : MonoBehaviour
 
         EaseAnimation(easeType);
 
-        if (loop)
-        {
-            bodyTransform.setLoopPingPong();
-            bodyRotation.setLoopPingPong();
-        }
+        bodyTransform?.setLoopPingPong();
+        bodyRotation?.setLoopPingPong();
     }
     private void Update()
     {
-        if (loop) return;
-
-        Rotation();
+        if (tween) return;
 
         RawMovement();
+
+        Rotation();
     }
 
     private void RawMovement()

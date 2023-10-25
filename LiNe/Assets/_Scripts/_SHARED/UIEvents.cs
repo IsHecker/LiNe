@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using TMPro;
 
 public class UIEvents : MonoBehaviour
 {
@@ -10,10 +7,9 @@ public class UIEvents : MonoBehaviour
     [SerializeField] private GameObject GameOverUI;
     private Animator animator;
 
-    public static UIEvents Instance { get; private set; }
+
     private void Start()
     {
-        Instance ??= this;
         animator = GetComponent<Animator>();
     }
 
@@ -30,9 +26,10 @@ public class UIEvents : MonoBehaviour
         animator.Play("Pause Reversed");
         Invoke(nameof(ClosePauseUI), 0.50f);
     }
+
     private void ClosePauseUI() => PauseUI.SetActive(false);
 
-    public void RestartGame() { AudioManager.Instance.RestartEffect(); FindAnyObjectByType<Fading>().FadeTo(SceneManager.GetActiveScene().name); }
+    public void RestartGame() { AudioManager.Instance?.RestartEffect(); FindAnyObjectByType<Fading>().FadeTo(SceneManager.GetActiveScene().name); }
 
-    public void ExitGame() { AudioManager.Instance.RestartEffect(); FindAnyObjectByType<Fading>().FadeTo("Main Menu"); }
+    public void ExitGame() { AudioManager.Instance?.RestartEffect(); FindAnyObjectByType<Fading>().FadeTo("Main Menu"); }
 }

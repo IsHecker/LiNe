@@ -46,12 +46,8 @@ SpriteAtlas:
     packables:
     - {fileID: 2800000, guid: 9250f99ec2e62184384b1d9a39385e5b, type: 3}
     - {fileID: 2800000, guid: e6d8137e0f0cee04aa722e7591f95a6f, type: 3}
-    - {fileID: 2800000, guid: 6d6462fa6a09afa4295cec9b345a5624, type: 3}
     - {fileID: 2800000, guid: 5dff979ca05cc0543be37a59696ab98a, type: 3}
     - {fileID: 2800000, guid: 41a501be89dcd9148b5c6ae2bcadbdf1, type: 3}
-    - {fileID: 2800000, guid: 15eefc7ca9c17b7429cdd145d2d30437, type: 3}
-    - {fileID: 2800000, guid: 135718f6e549232409215f884eb3609f, type: 3}
-    - {fileID: 2800000, guid: fc904bb7b49e71447873204bba03ce54, type: 3}
     - {fileID: 2800000, guid: 28d215501218a064bbe59f2e495ce1e2, type: 3}
     - {fileID: 2800000, guid: 097b591f530aeb046815066d1d2149d2, type: 3}
     - {fileID: 2800000, guid: fadb9db9a5c01b842acd18a9d2d0332f, type: 3}
@@ -71,12 +67,8 @@ SpriteAtlas:
   - {fileID: 21300000, guid: d68120d4b456ada45bb5f6e003c1d6f5, type: 3}
   - {fileID: 21300000, guid: 36fe4ce45b1e4884699c17db138c70bc, type: 3}
   - {fileID: 21300000, guid: b46efd56d219fb84c8793534248ba22e, type: 3}
-  - {fileID: 21300000, guid: 135718f6e549232409215f884eb3609f, type: 3}
-  - {fileID: 21300000, guid: fc904bb7b49e71447873204bba03ce54, type: 3}
   - {fileID: 21300000, guid: fadb9db9a5c01b842acd18a9d2d0332f, type: 3}
   - {fileID: 21300000, guid: 2690684a5e9ca0444b098ab2dde16253, type: 3}
-  - {fileID: 21300000, guid: 6d6462fa6a09afa4295cec9b345a5624, type: 3}
-  - {fileID: 21300000, guid: 15eefc7ca9c17b7429cdd145d2d30437, type: 3}
   - {fileID: 21300000, guid: 5dff979ca05cc0543be37a59696ab98a, type: 3}
   - {fileID: 21300000, guid: e6d8137e0f0cee04aa722e7591f95a6f, type: 3}
   - {fileID: 21300000, guid: 9250f99ec2e62184384b1d9a39385e5b, type: 3}
@@ -89,12 +81,8 @@ SpriteAtlas:
   - Buttons 1
   - 271220
   - spike
-  - Restart
-  - score
   - Slider Handler
   - Buttons
-  - Exit
-  - Pause
   - on button
   - dashed-lines-690740
   - button design

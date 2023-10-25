@@ -5,8 +5,6 @@ using static Helpers;
 
 public class ShopUIEvents : Singleton<ShopUIEvents>
 {
-    [SerializeField] private Animator animator;
-
     [SerializeField] private ItemSelector colorSelector;
 
     [SerializeField] private TMPro.TMP_Text moneyDisplayText;

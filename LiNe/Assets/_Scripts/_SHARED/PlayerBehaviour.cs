@@ -47,8 +47,8 @@ public abstract class PlayerBehaviour : MonoBehaviour
 
     protected virtual void Die() 
     { 
-        AudioManager.Instance.PlaySound(AudioHolder, "Death");
-        AudioManager.Instance.GameOverEffect();
+        AudioManager.Instance?.PlaySound(AudioHolder, "Death");
+        AudioManager.Instance?.GameOverEffect();
         OnPlayerDie?.Invoke(); 
     }
 

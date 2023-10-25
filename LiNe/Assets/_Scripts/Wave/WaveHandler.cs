@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class WaveHandler : PlayerBehaviour
 {
@@ -26,7 +27,7 @@ public class WaveHandler : PlayerBehaviour
 
     protected override void CheckInput()
     {
-        if (!Input.GetMouseButtonDown(0)) return;
+        if (!TouchInput()) return;
 
         ColumnSpawner.pauseTask = false;
 
@@ -36,7 +37,7 @@ public class WaveHandler : PlayerBehaviour
 
 
         tapParticle.Play();
-        //AudioManager.Instance.PlaySound(AudioHolder, "Tap");
+        AudioManager.Instance?.PlaySound(AudioHolder, "Tap");
 
         UIDisplay.Instance.CloseStartUI();
     }
@@ -50,7 +51,7 @@ public class WaveHandler : PlayerBehaviour
 
     private void Update()
     {
-        if (gameManager.IsGameOver() || Helpers.IsOverUI()) return;
+        if (gameManager.IsGameOver()) return;
 
         CheckInput();
         CheckOutOfWidthBounds(mytransform.position);
@@ -66,7 +67,7 @@ public class WaveHandler : PlayerBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Obstacle"))
+        if (other.CompareTag("Obstacle"))
         {
             UIDisplay.Instance.UpdateScoreDisplay(++playerScore, true);
             playerSpeed += 0.02f;
@@ -76,8 +77,14 @@ public class WaveHandler : PlayerBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnCollisionEnter2D(Collision2D other) => Die();
+
+    private bool TouchInput()
     {
-        Die();
+        if (Input.touchCount <= 0)
+            return false;
+
+        Touch touch = Input.GetTouch(0);
+        return Helpers.IsOverUI(touch);
     }
 }

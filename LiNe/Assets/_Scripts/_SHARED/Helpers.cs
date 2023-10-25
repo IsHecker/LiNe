@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,14 +7,20 @@ using UnityEngine.EventSystems;
 public static class Helpers
 {
     private static Camera _camera;
-    public static Camera Camera { get { if (_camera == null) { _camera = Camera.main;} return _camera; } }
+    public static Camera Camera { get { if (!_camera) { _camera = Camera.main; } return _camera; } }
 
 
     private readonly static Dictionary<float, WaitForSeconds> waitDictionary = new Dictionary<float, WaitForSeconds>();
     public static WaitForSeconds WaitFor(float seconds) => waitDictionary.TryGetValue(seconds, out var wait) ? wait : waitDictionary[seconds] = new WaitForSeconds(seconds);
-    
-    
-    public static bool IsOverUI() => EventSystem.current.IsPointerOverGameObject();
+
+
+    public static bool IsOverUI(Touch touch)
+    {
+        if (touch.phase != TouchPhase.Began)
+            return false;
+
+        return !EventSystem.current.IsPointerOverGameObject(touch.fingerId);
+    }
     
     public static GameObject GetPressedUI() => EventSystem.current.currentSelectedGameObject;
     
@@ -104,10 +111,10 @@ public static class Helpers
 
     public static void DeleteChildren(this Transform transform)
     {
-        foreach(Transform child in transform) Object.Destroy(child.gameObject);
+        foreach(Transform child in transform) UnityEngine.Object.Destroy(child.gameObject);
     }
 
-    private static RandomNumber randomNumber = new RandomNumber();
+    private static readonly RandomNumber randomNumber = new RandomNumber();
     public static int GenerateRandomNumber(int minRange, int maxRange)
     {
         return randomNumber.GetRandomNumber(minRange, maxRange);
@@ -116,74 +123,32 @@ public static class Helpers
 
 public class RandomNumber
 {
-    private int previousRandom;
-    private bool firstTime = true;
+    private int remainingNumbers;
+    private int lastNumber;
+    private readonly System.Random random = new System.Random();
 
-    // You can call this method to get a random number without consecutive repetitions.
-    public int GetRandomNumber(int minRange, int maxRange)
+    public int GetRandomNumber(int min, int max)
     {
-        int randomValue;
+        this.remainingNumbers = max - min + 1;
+
+        if (remainingNumbers == 0)
+        {
+            remainingNumbers = max - min + 1;
+            lastNumber = -1; // Reset the last number to avoid immediate repetition.
+        }
+
+        int selectedNumber;
+
         do
         {
-            randomValue = Random.Range(minRange, maxRange + 1);
+            selectedNumber = random.Next(min, max + 1);
+        }
+        while (selectedNumber == lastNumber);
 
-            // If it's the first time or the generated value is different from the previous one, break.
-            if (firstTime || randomValue != previousRandom)
-            {
-                break;
-            }
-        } while (true);
+        lastNumber = selectedNumber;
+        remainingNumbers--;
 
-        previousRandom = randomValue;
-        firstTime = false;
-
-        return randomValue;
+        return selectedNumber;
     }
 
-
-    //private List<int> shuffledNumbers;
-    //private int currentIndex = 0;
-
-    //private List<int> GenerateShuffledNumbers(int min, int max)
-    //{
-    //    List<int> numbers = new List<int>();
-    //    for (int i = min; i <= max; i++)
-    //    {
-    //        numbers.Add(i);
-    //    }
-
-    //    // Shuffle the list using the Fisher-Yates algorithm
-    //    int n = numbers.Count;
-    //    for (int i = n - 1; i > 0; i--)
-    //    {
-    //        int j = Random.Range(0, i + 1);
-    //        (numbers[j], numbers[i]) = (numbers[i], numbers[j]);
-    //    }
-
-    //    return numbers;
-    //}
-
-    //// You can call this method to get a random number without consecutive repetitions.
-    //public int GetRandomNumber(int min, int max)
-    //{
-    //    if (currentIndex >= shuffledNumbers.Count)
-    //    {
-    //        // If we've iterated through all shuffled numbers, reshuffle the list.
-    //        shuffledNumbers = GenerateShuffledNumbers(min, max);
-    //        currentIndex = 0;
-    //    }
-
-    //    int randomValue = shuffledNumbers[currentIndex];
-    //    currentIndex++;
-
-    //    // If the next number is the same as the previous, swap it with the last number.
-    //    if (currentIndex > 1 && randomValue == shuffledNumbers[currentIndex - 2])
-    //    {
-    //        int temp = shuffledNumbers[currentIndex - 1];
-    //        shuffledNumbers[currentIndex - 1] = shuffledNumbers[currentIndex - 2];
-    //        shuffledNumbers[currentIndex - 2] = temp;
-    //    }
-
-    //    return randomValue;
-    //}
 }

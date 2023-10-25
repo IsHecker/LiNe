@@ -14,6 +14,7 @@ public class TutorialHandler : MonoBehaviour, ISaveable
     private bool isAbleToSkip = false;
     private bool tutorialIsRead = false;
 
+
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -41,9 +42,12 @@ public class TutorialHandler : MonoBehaviour, ISaveable
 
     private IEnumerator Prepare()
     {
-        yield return new WaitForSecondsRealtime(0.3f);
+        yield return new WaitForSecondsRealtime(0.2f);
+
         animator.enabled = true;
+
         yield return new WaitForSecondsRealtime(3f);
+
         tapToContinueGO.SetActive(true);
         isAbleToSkip = true;
     }
